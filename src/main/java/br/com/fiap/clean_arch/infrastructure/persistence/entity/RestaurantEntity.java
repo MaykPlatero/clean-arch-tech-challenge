@@ -20,7 +20,7 @@ public class RestaurantEntity {
     
     @Column(nullable = false)
     private String address;
-    
+
     @Column(name = "cuisine_type", nullable = false)
     private String cuisineType;
 }

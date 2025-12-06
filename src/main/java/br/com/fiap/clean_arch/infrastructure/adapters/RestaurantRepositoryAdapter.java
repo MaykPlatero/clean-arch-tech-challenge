@@ -21,21 +21,26 @@ public class RestaurantRepositoryAdapter implements RestaurantRepository {
         return toDomain(saved);
     }
 
-    private RestaurantEntity toEntity(Restaurant restaurant) {
-        return new RestaurantEntity(
-            restaurant.getId(),
-            restaurant.getName(),
-            restaurant.getAddress(),
-            restaurant.getCuisineType()
-        );
-    }
-
-    private Restaurant toDomain(RestaurantEntity entity) {
-        return new Restaurant(
-            entity.getId(),
-            entity.getName(),
-            entity.getAddress(),
-            entity.getCuisineType()
-        );
-    }
+//    private RestaurantEntity toEntity(Restaurant restaurant) {
+//        return new RestaurantEntity(
+//            restaurant.getId(),
+//            restaurant.getName(),
+//            toAddressEmbeddable(restaurant.getAddress()),
+//            restaurant.getCuisineType(),
+//            toUserEntity(restaurant.getRestaurantOwner()),
+//            toOpeningHoursEntityList(restaurant.getOpeningHoursList())
+//        );
+//    }
+//
+//    private Restaurant toDomain(RestaurantEntity entity) {
+//        return new Restaurant(
+//            entity.getId(),
+//            entity.getName(),
+//            toAddress(entity.getAddress()),
+//            entity.getCuisineType(),
+//            toUser(entity.getRestaurantOwner()),
+//            toOpeningHoursList(entity.getOpeningHoursList())
+//        );
+//    }
 }
+
