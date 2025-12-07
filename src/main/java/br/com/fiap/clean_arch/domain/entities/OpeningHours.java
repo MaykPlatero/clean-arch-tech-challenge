@@ -1,5 +1,6 @@
 package br.com.fiap.clean_arch.domain.entities;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 import java.time.DayOfWeek;

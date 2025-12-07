@@ -1,10 +1,15 @@
 package br.com.fiap.clean_arch.domain.entities;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class User {
     private Long id;
     private String name;
@@ -15,16 +20,23 @@ public class User {
     private EProfile profile;
     private ZonedDateTime lastUpdate;
 
-    public User(Long id, String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
+    public static User create(String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
         validateUser(name, userIdentification, email, addressUser, userCredentials, profile);
-        this.id = id;
-        this.name = name;
-        this.userIdentification = userIdentification;
-        this.email = email;
-        this.addressUser = addressUser;
-        this.userCredentials = userCredentials;
-        this.profile = profile;
-        this.lastUpdate = lastUpdate;
+        User user = new User();
+        user.setName(name);
+        user.setUserIdentification(userIdentification);
+        user.setEmail(email);
+        user.setAddressUser(addressUser);
+        user.setUserCredentials(userCredentials);
+        user.setProfile(profile);
+        user.setLastUpdate(lastUpdate);
+        return user;
+    }
+
+    public static User create(Long id, String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
+        User user = create(name, userIdentification, email, addressUser, userCredentials, profile, lastUpdate);
+        user.setId(id);
+        return user;
     }
 
     private static void validateUser(String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile) {

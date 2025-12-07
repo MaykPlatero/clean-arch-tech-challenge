@@ -1,11 +1,16 @@
 package br.com.fiap.clean_arch.domain.entities;
 
 import br.com.fiap.clean_arch.domain.exceptions.DomainException;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Restaurant {
     private Long id;
     private String name;
@@ -14,19 +19,25 @@ public class Restaurant {
     private User restaurantOwner;
     private List<OpeningHours> openingHoursList;
 
-    public Restaurant(String name, Address address, String cuisineType, User restaurantOwner, List<OpeningHours> openingHoursList) {
+    public static Restaurant create(String name, Address address, String cuisineType, User restaurantOwner,
+                                    List<OpeningHours> openingHoursList) {
         validateRestaurant(name, address, cuisineType, restaurantOwner, openingHoursList);
-        this.name = name;
-        this.address = address;
-        this.cuisineType = cuisineType;
-        this.restaurantOwner = restaurantOwner;
-        this.openingHoursList = openingHoursList;
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(name);
+        restaurant.setAddress(address);
+        restaurant.setCuisineType(cuisineType);
+        restaurant.setRestaurantOwner(restaurantOwner);
+        restaurant.setOpeningHoursList(openingHoursList);
+
+        return restaurant;
     }
 
-    public Restaurant(Long id, String name, Address address, String cuisineType, User restaurantOwner,
+    public static Restaurant create(Long id, String name, Address address, String cuisineType, User restaurantOwner,
                       List<OpeningHours> openingHoursList) {
-        this(name, address, cuisineType, restaurantOwner, openingHoursList);
-        this.id = id;
+        Restaurant restaurant = create(name, address, cuisineType, restaurantOwner, openingHoursList);
+        restaurant.setId(id);
+        return restaurant;
     }
 
     private static void validateRestaurant(String name, Address address, String cuisineType, User restaurantOwner, List<OpeningHours> openingHoursList) {
@@ -36,8 +47,8 @@ public class Restaurant {
         if (name.length() < 3) {
             throw new DomainException("Restaurant name must have at least 3 characters");
         }
-        if (address == null || address.street.isEmpty() || address.city.isEmpty()) {
-            throw new DomainException("Address street and city are required");
+        if (address == null) {
+            throw new DomainException("Address is required");
         }
         if (cuisineType == null || cuisineType.trim().isEmpty()) {
             throw new DomainException("Cuisine type is required");

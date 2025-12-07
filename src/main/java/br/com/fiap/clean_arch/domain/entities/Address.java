@@ -1,34 +1,46 @@
 package br.com.fiap.clean_arch.domain.entities;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.ZonedDateTime;
 
 @Getter
+@Setter(AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Address {
-    Long id;
-    String street;
-    int number;
-    String complement;
-    String neighborhood;
-    String city;
-    String state;
-    String country;
-    String cep;
+    private Long id;
+    private String street;
+    private int number;
+    private String complement;
+    private String neighborhood;
+    private String city;
+    private String state;
+    private String country;
+    private String cep;
     private ZonedDateTime lastUpdate;
 
-    public Address(Long id, String street, int number, String complement, String neighborhood, String city, String state, String country, String cep, ZonedDateTime lastUpdate) {
+    public static Address create(String street, int number, String complement, String neighborhood, String city, String state, String country, String cep, ZonedDateTime lastUpdate) {
         validateAddress(street, number, city, state, country, cep);
-        this.id = id;
-        this.street = street;
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.cep = cep;
-        this.lastUpdate = lastUpdate;
+        Address address = new Address();
+        address.setStreet(street);
+        address.setNumber(number);
+        address.setComplement(complement);
+        address.setNeighborhood(neighborhood);
+        address.setCity(city);
+        address.setState(state);
+        address.setCountry(country);
+        address.setCep(cep);
+        address.setLastUpdate(lastUpdate);
+        return address;
+    }
+
+    public static Address create(Long id, String street, int number, String complement, String neighborhood, String city, String state, String country, String cep, ZonedDateTime lastUpdate) {
+        Address address = create(street, number, complement, neighborhood, city, state, country, cep, lastUpdate);
+        address.setId(id);
+        return address;
     }
 
     private static void validateAddress(String street, int number, String city, String state, String country, String cep) {
