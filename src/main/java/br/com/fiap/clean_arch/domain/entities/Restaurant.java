@@ -53,7 +53,7 @@ public class Restaurant {
         if (cuisineType == null || cuisineType.trim().isEmpty()) {
             throw new DomainException("Cuisine type is required");
         }
-        if (restaurantOwner == null || restaurantOwner.getId() == null) {
+        if (restaurantOwner == null) {
             throw new DomainException("Restaurant owner is required");
         }
         if (openingHoursList == null || openingHoursList.isEmpty()) {
