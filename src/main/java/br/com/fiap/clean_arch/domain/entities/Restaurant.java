@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter(AccessLevel.PRIVATE)
@@ -16,31 +17,31 @@ public class Restaurant {
     private String name;
     private Address address;
     private String cuisineType;
-    private User restaurantOwner;
+    private Set<User> restaurantOwners;
     private List<OpeningHours> openingHoursList;
 
-    public static Restaurant create(String name, Address address, String cuisineType, User restaurantOwner,
+    public static Restaurant create(String name, Address address, String cuisineType, Set<User> restaurantOwners,
                                     List<OpeningHours> openingHoursList) {
-        validateRestaurant(name, address, cuisineType, restaurantOwner, openingHoursList);
+        validateRestaurant(name, address, cuisineType, restaurantOwners, openingHoursList);
 
         Restaurant restaurant = new Restaurant();
         restaurant.setName(name);
         restaurant.setAddress(address);
         restaurant.setCuisineType(cuisineType);
-        restaurant.setRestaurantOwner(restaurantOwner);
+        restaurant.setRestaurantOwners(restaurantOwners);
         restaurant.setOpeningHoursList(openingHoursList);
 
         return restaurant;
     }
 
-    public static Restaurant create(Long id, String name, Address address, String cuisineType, User restaurantOwner,
+    public static Restaurant create(Long id, String name, Address address, String cuisineType, Set<User> restaurantOwners,
                       List<OpeningHours> openingHoursList) {
-        Restaurant restaurant = create(name, address, cuisineType, restaurantOwner, openingHoursList);
+        Restaurant restaurant = create(name, address, cuisineType, restaurantOwners, openingHoursList);
         restaurant.setId(id);
         return restaurant;
     }
 
-    private static void validateRestaurant(String name, Address address, String cuisineType, User restaurantOwner, List<OpeningHours> openingHoursList) {
+    private static void validateRestaurant(String name, Address address, String cuisineType, Set<User> restaurantOwners, List<OpeningHours> openingHoursList) {
         if (name == null || name.trim().isEmpty()) {
             throw new DomainException("Restaurant name is required");
         }
@@ -53,8 +54,8 @@ public class Restaurant {
         if (cuisineType == null || cuisineType.trim().isEmpty()) {
             throw new DomainException("Cuisine type is required");
         }
-        if (restaurantOwner == null) {
-            throw new DomainException("Restaurant owner is required");
+        if (restaurantOwners == null || restaurantOwners.isEmpty()) {
+            throw new DomainException("At least 1 restaurant owner is required");
         }
         if (openingHoursList == null || openingHoursList.isEmpty()) {
             throw new DomainException("At least one opening hours entry is required");

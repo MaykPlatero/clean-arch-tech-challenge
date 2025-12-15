@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "restaurants")
 @Data
@@ -17,10 +20,14 @@ public class RestaurantEntity {
     
     @Column(nullable = false)
     private String name;
-    
-    @Column(nullable = false)
-    private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
+    private AddressEntity address;
 
     @Column(name = "cuisine_type", nullable = false)
     private String cuisineType;
+
+    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
+    private Set<UserEntity> users = new HashSet<>();
 }
