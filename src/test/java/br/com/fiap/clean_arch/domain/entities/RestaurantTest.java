@@ -6,6 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,7 +17,7 @@ class RestaurantTest {
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Restaurant restaurant = Restaurant.create("My Restaurant", address, "Italian", owner, List.of(hours));
+        Restaurant restaurant = Restaurant.create("My Restaurant", address, "Italian", Set.of(owner), List.of(hours));
         assertNotNull(restaurant);
         assertEquals("My Restaurant", restaurant.getName());
     }
@@ -28,7 +29,7 @@ class RestaurantTest {
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Exception ex = assertThrows(DomainException.class, () ->
-            Restaurant.create("", address, "Italian", owner, List.of(hours))
+            Restaurant.create("", address, "Italian", Set.of(owner), List.of(hours))
         );
         assertTrue(ex.getMessage().contains("Restaurant name is required"));
     }
@@ -49,7 +50,7 @@ class RestaurantTest {
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Restaurant restaurant = Restaurant.create(1L, "My Restaurant", address, "Italian", owner, List.of(hours));
+        Restaurant restaurant = Restaurant.create(1L, "My Restaurant", address, "Italian", Set.of(owner), List.of(hours));
         assertEquals(1L, restaurant.getId());
     }
 }
