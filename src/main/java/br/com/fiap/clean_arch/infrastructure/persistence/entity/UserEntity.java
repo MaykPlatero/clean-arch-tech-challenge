@@ -29,8 +29,8 @@ public class UserEntity {
     @Column(nullable = false)
     private String email;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "address_id", nullable = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "address_id", nullable = true)
     private AddressEntity address;
 
     @ManyToMany

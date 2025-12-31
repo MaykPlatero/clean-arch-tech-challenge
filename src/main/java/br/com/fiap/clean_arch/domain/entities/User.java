@@ -49,9 +49,9 @@ public class User {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email is required");
         }
-        if (addressUser == null) {
-            throw new IllegalArgumentException("Address is required");
-        }
+//        if (addressUser == null) {
+//            throw new IllegalArgumentException("Address is required");
+//        }
         if (userCredentials == null) {
             throw new IllegalArgumentException("User credentials are required");
         }
