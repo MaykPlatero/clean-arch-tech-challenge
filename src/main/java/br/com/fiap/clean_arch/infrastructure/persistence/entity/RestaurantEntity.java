@@ -21,9 +21,8 @@ public class RestaurantEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
-    private AddressEntity address;
+    @Column(nullable = false)
+    private String address;
 
     @Column(name = "cuisine_type", nullable = false)
     private String cuisineType;
