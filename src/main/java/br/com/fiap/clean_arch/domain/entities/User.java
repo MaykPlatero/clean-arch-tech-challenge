@@ -15,31 +15,31 @@ public class User {
     private String name;
     private String userIdentification;
     private String email;
-    private Address addressUser;
+    private String address;
     private UserCredentials userCredentials;
     private EProfile profile;
     private ZonedDateTime lastUpdate;
 
-    public static User create(String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
+    public static User create(String name, String userIdentification, String email, String addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
         validateUser(name, userIdentification, email, addressUser, userCredentials, profile);
         User user = new User();
         user.setName(name);
         user.setUserIdentification(userIdentification);
         user.setEmail(email);
-        user.setAddressUser(addressUser);
+        user.setAddress(addressUser);
         user.setUserCredentials(userCredentials);
         user.setProfile(profile);
         user.setLastUpdate(lastUpdate);
         return user;
     }
 
-    public static User create(Long id, String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
+    public static User create(Long id, String name, String userIdentification, String email, String addressUser, UserCredentials userCredentials, EProfile profile, ZonedDateTime lastUpdate) {
         User user = create(name, userIdentification, email, addressUser, userCredentials, profile, lastUpdate);
         user.setId(id);
         return user;
     }
 
-    private static void validateUser(String name, String userIdentification, String email, Address addressUser, UserCredentials userCredentials, EProfile profile) {
+    private static void validateUser(String name, String userIdentification, String email, String address, UserCredentials userCredentials, EProfile profile) {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name is required");
         }
@@ -49,9 +49,9 @@ public class User {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email is required");
         }
-//        if (addressUser == null) {
-//            throw new IllegalArgumentException("Address is required");
-//        }
+        if (address == null) {
+            throw new IllegalArgumentException("Address is required");
+        }
         if (userCredentials == null) {
             throw new IllegalArgumentException("User credentials are required");
         }

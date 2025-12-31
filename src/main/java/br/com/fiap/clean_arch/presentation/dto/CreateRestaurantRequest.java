@@ -1,6 +1,5 @@
 package br.com.fiap.clean_arch.presentation.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

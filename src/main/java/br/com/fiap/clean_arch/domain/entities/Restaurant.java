@@ -15,12 +15,12 @@ import java.util.Set;
 public class Restaurant {
     private Long id;
     private String name;
-    private Address address;
+    private String address;
     private String cuisineType;
     private Set<User> restaurantOwners;
     private List<OpeningHours> openingHoursList;
 
-    public static Restaurant create(String name, Address address, String cuisineType, Set<User> restaurantOwners,
+    public static Restaurant create(String name, String address, String cuisineType, Set<User> restaurantOwners,
                                     List<OpeningHours> openingHoursList) {
         validateRestaurant(name, address, cuisineType, restaurantOwners, openingHoursList);
 
@@ -34,14 +34,14 @@ public class Restaurant {
         return restaurant;
     }
 
-    public static Restaurant create(Long id, String name, Address address, String cuisineType, Set<User> restaurantOwners,
+    public static Restaurant create(Long id, String name, String address, String cuisineType, Set<User> restaurantOwners,
                       List<OpeningHours> openingHoursList) {
         Restaurant restaurant = create(name, address, cuisineType, restaurantOwners, openingHoursList);
         restaurant.setId(id);
         return restaurant;
     }
 
-    private static void validateRestaurant(String name, Address address, String cuisineType, Set<User> restaurantOwners, List<OpeningHours> openingHoursList) {
+    private static void validateRestaurant(String name, String address, String cuisineType, Set<User> restaurantOwners, List<OpeningHours> openingHoursList) {
         if (name == null || name.trim().isEmpty()) {
             throw new DomainException("Restaurant name is required");
         }

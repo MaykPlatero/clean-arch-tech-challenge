@@ -1,8 +1,9 @@
 package br.com.fiap.clean_arch.application.usecases;
 
-import br.com.fiap.clean_arch.application.dto.CreateUserDTO;
 import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.User;
+import br.com.fiap.clean_arch.presentation.dto.CreateRestaurantRequest;
+import br.com.fiap.clean_arch.presentation.dto.CreateUserRequest;
 import br.com.fiap.clean_arch.presentation.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public class UserUseCase {
         this.userRepository = userRepository;
     }
 
-    public User execute(CreateUserDTO createUserDTO) {
-        User user = UserMapper.toDomainEntity(createUserDTO);
+    public User execute(CreateUserRequest createUserRequest) {
+        User user = UserMapper.toDomainEntity(createUserRequest);
         return userRepository.save(user);
     }
 }

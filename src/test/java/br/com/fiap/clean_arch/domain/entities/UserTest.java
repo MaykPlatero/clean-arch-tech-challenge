@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
     @Test
     void createUser_withValidData_shouldSucceed() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User user = User.create("John Doe", "12345678900", "john@example.com", address, credentials, EProfile.client, ZonedDateTime.now());
         assertNotNull(user);
@@ -17,7 +17,7 @@ class UserTest {
 
     @Test
     void createUser_withEmptyName_shouldThrow() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         Exception ex = assertThrows(IllegalArgumentException.class, () ->
             User.create("", "12345678900", "john@example.com", address, credentials, EProfile.client, ZonedDateTime.now())
@@ -36,7 +36,7 @@ class UserTest {
 
     @Test
     void createUser_withId_shouldSucceed() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User user = User.create(1L, "John Doe", "12345678900", "john@example.com", address, credentials, EProfile.client, ZonedDateTime.now());
         assertEquals(1L, user.getId());

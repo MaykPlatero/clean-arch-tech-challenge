@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestaurantTest {
     @Test
     void createRestaurant_withValidData_shouldSucceed() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
@@ -24,7 +24,7 @@ class RestaurantTest {
 
     @Test
     void createRestaurant_withEmptyName_shouldThrow() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
@@ -36,17 +36,17 @@ class RestaurantTest {
 
     @Test
     void createRestaurant_withNullOwner_shouldThrow() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Exception ex = assertThrows(DomainException.class, () ->
             Restaurant.create("My Restaurant", address, "Italian", null, List.of(hours))
         );
-        assertTrue(ex.getMessage().contains("Restaurant owner is required"));
+        assertTrue(ex.getMessage().contains("At least 1 restaurant owner is required"));
     }
 
     @Test
     void createRestaurant_withId_shouldSucceed() {
-        Address address = Address.create("Main St", 123, "Apt 1", "Downtown", "City", "State", "Country", "12345-678", ZonedDateTime.now());
+        String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
         OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));

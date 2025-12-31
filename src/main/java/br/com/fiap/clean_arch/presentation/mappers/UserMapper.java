@@ -1,10 +1,11 @@
 package br.com.fiap.clean_arch.presentation.mappers;
 
-import br.com.fiap.clean_arch.application.dto.CreateUserDTO;
 import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
 import br.com.fiap.clean_arch.infrastructure.persistence.entity.UserEntity;
+import br.com.fiap.clean_arch.presentation.dto.CreateRestaurantRequest;
+import br.com.fiap.clean_arch.presentation.dto.CreateUserRequest;
 import br.com.fiap.clean_arch.presentation.dto.UserResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -17,23 +18,23 @@ public class UserMapper {
                 userEntity.getName(),
                 userEntity.getUserIdentification(),
                 userEntity.getEmail(),
-                null, // Map address here
+                userEntity.getAddress(),
                 UserCredentialsMapper.toDomainEntity(userEntity.getUserCredentials()),
                 userEntity.getProfile(),
                 userEntity.getLastUpdate()
         );
     }
 
-    public static User toDomainEntity(CreateUserDTO createUserDTO) throws IllegalArgumentException {
-        EProfile profile = EProfile.valueOf(createUserDTO.profile());
-        UserCredentials userCredentials = UserCredentials.create(createUserDTO.username(), createUserDTO.password(),null);
+    public static User toDomainEntity(CreateUserRequest createUserRequest) throws IllegalArgumentException {
+        EProfile profile = EProfile.valueOf(createUserRequest.profile());
+        UserCredentials userCredentials = UserCredentials.create(createUserRequest.username(), createUserRequest.password(),null);
 
         return User.create(
                 null,
-                createUserDTO.name(),
-                createUserDTO.userIdentification(),
-                createUserDTO.email(),
-                null, // Map address here
+                createUserRequest.name(),
+                createUserRequest.userIdentification(),
+                createUserRequest.email(),
+                createUserRequest.address(),
                 userCredentials,
                 profile,
                 null
@@ -46,7 +47,7 @@ public class UserMapper {
         userEntity.setName(user.getName());
         userEntity.setUserIdentification(user.getUserIdentification());
         userEntity.setEmail(user.getEmail());
-        // Map address here
+        userEntity.setAddress(user.getAddress());
         userEntity.setUserCredentials(UserCredentialsMapper.toPersistenceEntity(user.getUserCredentials()));
         userEntity.setProfile(user.getProfile());
         userEntity.setLastUpdate(user.getLastUpdate());
@@ -59,6 +60,7 @@ public class UserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getUserIdentification(),
+                user.getAddress(),
                 user.getProfile().name()
         );
     }
