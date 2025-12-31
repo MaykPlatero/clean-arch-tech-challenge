@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.time.ZonedDateTime;
 
 @Getter
-@Setter(AccessLevel.PRIVATE)
+@Setter
 @NoArgsConstructor
 public class User {
     private Long id;

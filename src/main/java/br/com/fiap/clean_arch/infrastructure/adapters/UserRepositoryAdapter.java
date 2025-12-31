@@ -33,4 +33,9 @@ public class UserRepositoryAdapter implements UserRepository {
         Optional<UserEntity> userEntity = userJpaRepository.findById(id);
         return userEntity.map(UserMapper::toDomainEntity).orElse(null);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        userJpaRepository.deleteById(id);
+    }
 }
