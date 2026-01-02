@@ -6,6 +6,8 @@ import br.com.fiap.clean_arch.presentation.dto.CreateUserRequest;
 import br.com.fiap.clean_arch.presentation.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
+
 @Service
 public class CreateUserUseCase {
 
@@ -16,9 +18,12 @@ public class CreateUserUseCase {
     }
 
     public User execute(CreateUserRequest createUserRequest) {
+        User user = UserMapper.toDomainEntity(createUserRequest);
+        user.setLastUpdate(ZonedDateTime.now());
+
         // Add validations here if needed
         // Is email already in use?
-        User user = UserMapper.toDomainEntity(createUserRequest);
+
         return userRepository.save(user);
     }
 }

@@ -45,8 +45,14 @@ public class UpdateUserUseCase {
         if (updateUserRequest.profile() != null) {
             existingUser.setProfile(EProfile.valueOf(updateUserRequest.profile()));
         }
-        if (updateUserRequest.username() != null && updateUserRequest.password() != null) {
-            existingUser.setUserCredentials(UserCredentials.create(updateUserRequest.username(), updateUserRequest.password(), null));
+
+        if (updateUserRequest.username() != null || updateUserRequest.password() != null) {
+            UserCredentials existingUserCredentials = existingUser.getUserCredentials();
+            String username = updateUserRequest.username() == null ? existingUserCredentials.getUsername()
+                    : updateUserRequest.username();
+            String password = updateUserRequest.password() == null ? existingUserCredentials.getPassword()
+                    : updateUserRequest.password();
+            existingUser.setUserCredentials(UserCredentials.create(username, password, null));
         }
 
         existingUser.setLastUpdate(ZonedDateTime.now());
