@@ -4,7 +4,7 @@ import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
-import br.com.fiap.clean_arch.presentation.dto.UpdateUserRequest;
+import br.com.fiap.clean_arch.presentation.dto.request.UpdateUserRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -45,8 +45,14 @@ public class UpdateUserUseCase {
         if (updateUserRequest.profile() != null) {
             existingUser.setProfile(EProfile.valueOf(updateUserRequest.profile()));
         }
-        if (updateUserRequest.username() != null && updateUserRequest.password() != null) {
-            existingUser.setUserCredentials(UserCredentials.create(updateUserRequest.username(), updateUserRequest.password(), null));
+
+        if (updateUserRequest.username() != null || updateUserRequest.password() != null) {
+            UserCredentials existingUserCredentials = existingUser.getUserCredentials();
+            String username = updateUserRequest.username() == null ? existingUserCredentials.getUsername()
+                    : updateUserRequest.username();
+            String password = updateUserRequest.password() == null ? existingUserCredentials.getPassword()
+                    : updateUserRequest.password();
+            existingUser.setUserCredentials(UserCredentials.create(username, password, null));
         }
 
         existingUser.setLastUpdate(ZonedDateTime.now());

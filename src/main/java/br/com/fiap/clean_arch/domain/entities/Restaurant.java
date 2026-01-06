@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -18,30 +17,29 @@ public class Restaurant {
     private String address;
     private String cuisineType;
     private Set<User> restaurantOwners;
-    private List<OpeningHours> openingHoursList;
+    private Set<OpeningHours> openingHoursSet;
 
     public static Restaurant create(String name, String address, String cuisineType, Set<User> restaurantOwners,
-                                    List<OpeningHours> openingHoursList) {
+                                    Set<OpeningHours> openingHoursList) {
+        return Restaurant.create(null, name, address, cuisineType, restaurantOwners, openingHoursList);
+    }
+
+    public static Restaurant create(Long id, String name, String address, String cuisineType, Set<User> restaurantOwners,
+                                    Set<OpeningHours> openingHoursList) {
         validateRestaurant(name, address, cuisineType, restaurantOwners, openingHoursList);
 
         Restaurant restaurant = new Restaurant();
+        restaurant.setId(id);
         restaurant.setName(name);
         restaurant.setAddress(address);
         restaurant.setCuisineType(cuisineType);
         restaurant.setRestaurantOwners(restaurantOwners);
-        restaurant.setOpeningHoursList(openingHoursList);
+        restaurant.setOpeningHoursSet(openingHoursList);
 
         return restaurant;
     }
 
-    public static Restaurant create(Long id, String name, String address, String cuisineType, Set<User> restaurantOwners,
-                      List<OpeningHours> openingHoursList) {
-        Restaurant restaurant = create(name, address, cuisineType, restaurantOwners, openingHoursList);
-        restaurant.setId(id);
-        return restaurant;
-    }
-
-    private static void validateRestaurant(String name, String address, String cuisineType, Set<User> restaurantOwners, List<OpeningHours> openingHoursList) {
+    private static void validateRestaurant(String name, String address, String cuisineType, Set<User> restaurantOwners, Set<OpeningHours> openingHoursList) {
         if (name == null || name.trim().isEmpty()) {
             throw new DomainException("Restaurant name is required");
         }
