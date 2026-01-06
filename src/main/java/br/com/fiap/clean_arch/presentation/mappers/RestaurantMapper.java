@@ -6,25 +6,57 @@ import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.infrastructure.persistence.entity.OpeningHoursEntity;
 import br.com.fiap.clean_arch.infrastructure.persistence.entity.RestaurantEntity;
 import br.com.fiap.clean_arch.infrastructure.persistence.entity.UserEntity;
-import br.com.fiap.clean_arch.presentation.dto.RestaurantResponse;
+import br.com.fiap.clean_arch.presentation.dto.OpeningHoursDTO;
+import br.com.fiap.clean_arch.presentation.dto.UserDTO;
+import br.com.fiap.clean_arch.presentation.dto.response.RestaurantResponse;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = lombok.AccessLevel.PRIVATE)
 public class RestaurantMapper {
 
-    public static Restaurant toDomainEntity(RestaurantEntity restaurantEntity,
-                                            Set<UserEntity> userSet,
-                                            List<OpeningHoursEntity> openingHoursEntityList) {
-        List<OpeningHours> openingHoursList = OpeningHoursMapper.toDomainEntityList(openingHoursEntityList);
+    public static RestaurantEntity toPersistenceEntity(Restaurant restaurant) {
+        RestaurantEntity restaurantEntity = new RestaurantEntity();
 
-        Set<User> usersSet = userSet.stream()
+        // Map Restaurant Owners to UserEntities
+        Set<User> restaurantOwners = restaurant.getRestaurantOwners();
+        if (restaurantOwners != null && !restaurantOwners.isEmpty()) {
+            Set<UserEntity> userEntities = restaurantOwners.stream()
+                .map(UserMapper::toPersistenceEntity)
+                .collect(Collectors.toSet());
+            restaurantEntity.setUsers(userEntities);
+        }
+
+        // Map Opening Hours to OpeningHoursEntities
+        Set<OpeningHours> openingHoursSet = restaurant.getOpeningHoursSet();
+        if (openingHoursSet != null && !openingHoursSet.isEmpty()) {
+            Set<OpeningHoursEntity> openingHoursEntities = OpeningHoursMapper.toPersistenceEntitySet(openingHoursSet);
+            // Set the parent restaurant reference in each OpeningHoursEntity
+            for (OpeningHoursEntity opening : openingHoursEntities) {
+                opening.setRestaurant(restaurantEntity);
+            }
+            restaurantEntity.setOpeningHours(openingHoursEntities);
+        }
+
+        restaurantEntity.setId(restaurant.getId());
+        restaurantEntity.setName(restaurant.getName());
+        restaurantEntity.setAddress(restaurant.getAddress());
+        restaurantEntity.setCuisineType(restaurant.getCuisineType());
+
+        return restaurantEntity;
+    }
+
+    public static Restaurant toDomainEntity(RestaurantEntity restaurantEntity) {
+        Set<OpeningHours> openingHoursList = OpeningHoursMapper.toDomainEntityList(restaurantEntity.getOpeningHours());
+
+        Set<User> usersSet = restaurantEntity.getUsers().stream()
             .map(UserMapper::toDomainEntity)
             .collect(java.util.stream.Collectors.toSet());
 
         return Restaurant.create(
+            restaurantEntity.getId(),
             restaurantEntity.getName(),
             restaurantEntity.getAddress(),
             restaurantEntity.getCuisineType(),
@@ -34,11 +66,19 @@ public class RestaurantMapper {
     }
 
     public static RestaurantResponse toResponse(Restaurant restaurant) {
+        Set<OpeningHoursDTO> openingHoursDTOSet = OpeningHoursMapper.toResponseDtoSet(restaurant.getOpeningHoursSet());
+
+        Set<UserDTO> userDTOSet = restaurant.getRestaurantOwners().stream()
+        .map(UserMapper::toDTO)
+        .collect(Collectors.toSet());
+
         return new RestaurantResponse(
             restaurant.getId(),
             restaurant.getName(),
             restaurant.getAddress(),
-            restaurant.getCuisineType()
+            restaurant.getCuisineType(),
+            openingHoursDTOSet,
+            userDTOSet
         );
     }
 }

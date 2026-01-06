@@ -3,7 +3,9 @@ package br.com.fiap.clean_arch.infrastructure.persistence.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -13,6 +15,8 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "restaurant")
+@ToString(exclude = "restaurant")
 public class OpeningHoursEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +36,3 @@ public class OpeningHoursEntity {
     @Column(name = "close_time", nullable = false)
     private LocalTime closeTime;
 }
-

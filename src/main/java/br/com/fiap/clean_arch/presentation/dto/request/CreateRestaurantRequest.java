@@ -1,6 +1,10 @@
-package br.com.fiap.clean_arch.presentation.dto;
+package br.com.fiap.clean_arch.presentation.dto.request;
 
+import java.util.Set;
+
+import br.com.fiap.clean_arch.presentation.dto.OpeningHoursDTO;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CreateRestaurantRequest(
@@ -12,5 +16,11 @@ public record CreateRestaurantRequest(
     String address,
     
     @NotBlank(message = "Cuisine type is required")
-    String cuisineType
+    String cuisineType,
+
+    @NotNull(message = "User IDs are required")
+    Set<Long> userIds,
+
+    @NotNull(message = "Opening hours are required")
+    Set<OpeningHoursDTO> openingHours
 ) {}

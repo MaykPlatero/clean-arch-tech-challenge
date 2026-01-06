@@ -2,7 +2,7 @@ package br.com.fiap.clean_arch.application.usecases;
 
 import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.User;
-import br.com.fiap.clean_arch.presentation.dto.CreateUserRequest;
+import br.com.fiap.clean_arch.presentation.dto.request.CreateUserRequest;
 import br.com.fiap.clean_arch.presentation.mappers.UserMapper;
 import org.springframework.stereotype.Service;
 

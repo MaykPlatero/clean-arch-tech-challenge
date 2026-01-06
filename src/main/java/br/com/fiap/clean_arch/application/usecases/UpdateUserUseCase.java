@@ -4,7 +4,7 @@ import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
-import br.com.fiap.clean_arch.presentation.dto.UpdateUserRequest;
+import br.com.fiap.clean_arch.presentation.dto.request.UpdateUserRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;

@@ -1,4 +1,4 @@
-package br.com.fiap.clean_arch.presentation.dto;
+package br.com.fiap.clean_arch.presentation.dto.response;
 
 public record UserResponse(Long id,
                            String name,

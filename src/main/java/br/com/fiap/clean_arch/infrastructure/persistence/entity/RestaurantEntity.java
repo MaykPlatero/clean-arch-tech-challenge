@@ -3,7 +3,9 @@ package br.com.fiap.clean_arch.infrastructure.persistence.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +15,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "openingHours")
+@ToString(exclude = "openingHours")
 public class  RestaurantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +33,7 @@ public class  RestaurantEntity {
 
     @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
     private Set<UserEntity> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OpeningHoursEntity> openingHours = new HashSet<>();
 }

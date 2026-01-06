@@ -4,9 +4,9 @@ import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
 import br.com.fiap.clean_arch.infrastructure.persistence.entity.UserEntity;
-import br.com.fiap.clean_arch.presentation.dto.CreateRestaurantRequest;
-import br.com.fiap.clean_arch.presentation.dto.CreateUserRequest;
-import br.com.fiap.clean_arch.presentation.dto.UserResponse;
+import br.com.fiap.clean_arch.presentation.dto.UserDTO;
+import br.com.fiap.clean_arch.presentation.dto.request.CreateUserRequest;
+import br.com.fiap.clean_arch.presentation.dto.response.UserResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -62,6 +62,14 @@ public class UserMapper {
                 user.getUserIdentification(),
                 user.getAddress(),
                 user.getProfile().name()
+        );
+    }
+
+    public static UserDTO toDTO(User user) {
+        return new UserDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
         );
     }
 }
