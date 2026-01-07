@@ -4,4 +4,5 @@ import br.com.fiap.clean_arch.domain.entities.Restaurant;
 
 public interface RestaurantRepository {
     Restaurant save(Restaurant restaurant);
+    Restaurant findById(Long id);
 }

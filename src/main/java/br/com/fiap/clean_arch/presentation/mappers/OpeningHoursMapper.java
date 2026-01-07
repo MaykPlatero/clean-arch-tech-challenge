@@ -63,8 +63,6 @@ public class OpeningHoursMapper {
         return openingHoursList;
     }
 
-
-
     public static Set<OpeningHoursEntity> toPersistenceEntitySet(Set<OpeningHours> openingHoursSet) {
         Set<OpeningHoursEntity> openingHoursEntities = new HashSet<>();
 

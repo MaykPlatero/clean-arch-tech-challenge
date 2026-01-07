@@ -1,5 +1,6 @@
 package br.com.fiap.clean_arch.infrastructure.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +16,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "openingHours")
-@ToString(exclude = "openingHours")
+@EqualsAndHashCode(exclude = {"openingHours", "users"})
+@ToString(exclude = {"openingHours", "users"})
 public class  RestaurantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,8 @@ public class  RestaurantEntity {
     @Column(name = "cuisine_type", nullable = false)
     private String cuisineType;
 
-    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
+    @JsonIgnore // Prevent infinite recursion during serialization
     private Set<UserEntity> users = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)

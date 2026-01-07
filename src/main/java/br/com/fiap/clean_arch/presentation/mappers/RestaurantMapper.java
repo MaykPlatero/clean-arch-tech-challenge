@@ -51,8 +51,9 @@ public class RestaurantMapper {
     public static Restaurant toDomainEntity(RestaurantEntity restaurantEntity) {
         Set<OpeningHours> openingHoursList = OpeningHoursMapper.toDomainEntityList(restaurantEntity.getOpeningHours());
 
+        // Map users without their restaurants to avoid circular dependency
         Set<User> usersSet = restaurantEntity.getUsers().stream()
-            .map(UserMapper::toDomainEntity)
+            .map(RestaurantMapper::mapUserWithoutRestaurants)
             .collect(java.util.stream.Collectors.toSet());
 
         return Restaurant.create(
@@ -62,6 +63,23 @@ public class RestaurantMapper {
             restaurantEntity.getCuisineType(),
             usersSet,
             openingHoursList
+        );
+    }
+
+    /**
+     * Maps a UserEntity to a User domain object without loading the user's restaurants
+     * to prevent circular dependency and StackOverflowError.
+     */
+    private static User mapUserWithoutRestaurants(UserEntity userEntity) {
+        return User.create(
+            userEntity.getId(),
+            userEntity.getName(),
+            userEntity.getUserIdentification(),
+            userEntity.getEmail(),
+            userEntity.getAddress(),
+            UserCredentialsMapper.toDomainEntity(userEntity.getUserCredentials()),
+            userEntity.getProfile(),
+            userEntity.getLastUpdate()
         );
     }
 
