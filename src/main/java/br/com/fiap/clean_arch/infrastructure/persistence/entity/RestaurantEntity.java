@@ -31,7 +31,7 @@ public class  RestaurantEntity {
     @Column(name = "cuisine_type", nullable = false)
     private String cuisineType;
 
-    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "restaurants", fetch = FetchType.EAGER)
     private Set<UserEntity> users = new HashSet<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)

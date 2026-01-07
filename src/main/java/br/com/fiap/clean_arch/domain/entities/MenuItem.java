@@ -13,26 +13,26 @@ import java.time.ZonedDateTime;
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class MenuItem {
-
     private Long id;
     private String name;
-    private Restaurant restaurant;
+    private Long restaurantId;
     private BigDecimal price;
     private boolean deliveryItem;
     private String photoUrl;
     private ZonedDateTime lastUpdate;
 
-    public static MenuItem create(Long id, String name, BigDecimal price, boolean deliveryItem, String photoUrl) {
-        MenuItem menuItem = MenuItem.create(name, price, deliveryItem, photoUrl, ZonedDateTime.now());
+    public static MenuItem create(Long id, Long restaurantId, String name, BigDecimal price, boolean deliveryItem, String photoUrl) {
+        MenuItem menuItem = MenuItem.create(restaurantId, name, price, deliveryItem, photoUrl, ZonedDateTime.now());
         menuItem.id = id;
         return menuItem;
     }
 
-    public static MenuItem create(String name, BigDecimal price, boolean deliveryItem, String photoUrl, ZonedDateTime lastUpdate) {
+    public static MenuItem create(Long restaurantId, String name, BigDecimal price, boolean deliveryItem, String photoUrl, ZonedDateTime lastUpdate) {
         price = price.setScale(2, RoundingMode.HALF_UP);
         validateMenuItem(name, price, photoUrl);
         MenuItem menuItem = new MenuItem();
         menuItem.name = name;
+        menuItem.restaurantId = restaurantId;
         menuItem.price = price;
         menuItem.deliveryItem = deliveryItem;
         menuItem.photoUrl = photoUrl;

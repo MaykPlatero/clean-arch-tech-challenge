@@ -16,7 +16,7 @@ class RestaurantTest {
         String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
+        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Restaurant restaurant = Restaurant.create("My Restaurant", address, "Italian", Set.of(owner), Set.of(hours));
         assertNotNull(restaurant);
         assertEquals("My Restaurant", restaurant.getName());
@@ -27,7 +27,7 @@ class RestaurantTest {
         String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
+        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Exception ex = assertThrows(DomainException.class, () ->
             Restaurant.create("", address, "Italian", Set.of(owner), Set.of(hours))
         );
@@ -37,7 +37,7 @@ class RestaurantTest {
     @Test
     void createRestaurant_withNullOwner_shouldThrow() {
         String address = "Main  123, Apt 1";
-        OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
+        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Exception ex = assertThrows(DomainException.class, () ->
             Restaurant.create("My Restaurant", address, "Italian", null, Set.of(hours))
         );
@@ -49,7 +49,7 @@ class RestaurantTest {
         String address = "Main  123, Apt 1";
         UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
         User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
+        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
         Restaurant restaurant = Restaurant.create(1L, "My Restaurant", address, "Italian", Set.of(owner), Set.of(hours));
         assertEquals(1L, restaurant.getId());
     }
