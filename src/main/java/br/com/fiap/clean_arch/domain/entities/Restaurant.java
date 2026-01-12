@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Getter
-@Setter(AccessLevel.PRIVATE)
+@Setter(AccessLevel.PUBLIC)
 @NoArgsConstructor
 public class Restaurant {
     private Long id;

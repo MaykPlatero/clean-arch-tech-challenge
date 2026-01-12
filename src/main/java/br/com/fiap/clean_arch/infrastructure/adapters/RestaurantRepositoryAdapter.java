@@ -69,8 +69,8 @@ public class RestaurantRepositoryAdapter implements RestaurantRepository {
             }
         }
 
-        // Map back to domain without triggering circular dependencies
-        return mapToDomainSimple(savedRestaurant, restaurant.getRestaurantOwners(), openingHoursSet);
+        restaurant.setId(savedRestaurant.getId());
+        return restaurant;
     }
 
     @Override
@@ -79,21 +79,6 @@ public class RestaurantRepositoryAdapter implements RestaurantRepository {
         return restaurantJpaRepository.findById(id)
                 .map(this::mapToDomainFromEntity)
                 .orElse(null);
-    }
-
-    /**
-     * Maps RestaurantEntity to Restaurant domain object without triggering circular dependencies.
-     * Uses the original domain objects instead of fetching from the entity to avoid lazy loading issues.
-     */
-    private Restaurant mapToDomainSimple(RestaurantEntity entity, Set<User> owners, Set<OpeningHours> openingHours) {
-        return Restaurant.create(
-                entity.getId(),
-                entity.getName(),
-                entity.getAddress(),
-                entity.getCuisineType(),
-                owners != null ? owners : Set.of(),
-                openingHours != null ? openingHours : Set.of()
-        );
     }
 
     /**
