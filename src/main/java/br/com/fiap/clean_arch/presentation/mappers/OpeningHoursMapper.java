@@ -13,6 +13,8 @@ public class OpeningHoursMapper {
 
     public static OpeningHours toDomainEntity(OpeningHoursEntity openingHoursEntity) {
         return new OpeningHours(
+            openingHoursEntity.getId(),
+            openingHoursEntity.getRestaurant().getId(),
             openingHoursEntity.getDayOfWeek(),
             openingHoursEntity.getOpenTime(),
             openingHoursEntity.getCloseTime()
@@ -23,7 +25,7 @@ public class OpeningHoursMapper {
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(request.dayOfWeek().toUpperCase());
         LocalTime openTime = LocalTime.parse(request.openTime());
         LocalTime closeTime = LocalTime.parse(request.closeTime());
-        return new OpeningHours(dayOfWeek, openTime, closeTime);
+        return new OpeningHours(null, null, dayOfWeek, openTime, closeTime);
     }
 
     public static Set<OpeningHours> toDomainEntitySet(Set<OpeningHoursDTO> requests) {
@@ -60,8 +62,6 @@ public class OpeningHoursMapper {
 
         return openingHoursList;
     }
-
-
 
     public static Set<OpeningHoursEntity> toPersistenceEntitySet(Set<OpeningHours> openingHoursSet) {
         Set<OpeningHoursEntity> openingHoursEntities = new HashSet<>();

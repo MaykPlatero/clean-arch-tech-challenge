@@ -1,10 +1,13 @@
 package br.com.fiap.clean_arch.infrastructure.persistence.entity;
 
 import br.com.fiap.clean_arch.domain.entities.EProfile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
@@ -15,6 +18,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"restaurants"})
+@ToString(exclude = {"restaurants"})
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +43,7 @@ public class UserEntity {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "restaurant_id")
     )
+    @JsonIgnore // Prevent infinite recursion during serialization
     private Set<RestaurantEntity> restaurants = new HashSet<>();
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
