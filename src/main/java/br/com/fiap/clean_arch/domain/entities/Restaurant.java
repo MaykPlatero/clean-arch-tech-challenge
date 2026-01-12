@@ -52,11 +52,12 @@ public class Restaurant {
         if (cuisineType == null || cuisineType.trim().isEmpty()) {
             throw new DomainException("Cuisine type is required");
         }
-        if (restaurantOwners == null || restaurantOwners.isEmpty()) {
-            throw new DomainException("At least 1 restaurant owner is required");
-        }
-        if (openingHoursList == null || openingHoursList.isEmpty()) {
-            throw new DomainException("At least one opening hours entry is required");
-        }
+        // Validações comentadas pelo @JsonIgnore na entidade
+//        if (restaurantOwners == null || restaurantOwners.isEmpty()) {
+//            throw new DomainException("At least 1 restaurant owner is required");
+//        }
+//        if (openingHoursList == null || openingHoursList.isEmpty()) {
+//            throw new DomainException("At least one opening hours entry is required");
+//        }
     }
 }
