@@ -3,9 +3,7 @@ package br.com.fiap.clean_arch.infrastructure.persistence.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
@@ -15,16 +13,13 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "restaurant")
-@ToString(exclude = "restaurant")
 public class OpeningHoursEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private RestaurantEntity restaurant;
+    @Column(name = "restaurant_id", nullable = false)
+    private Long restaurantId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "day_of_week", nullable = false)

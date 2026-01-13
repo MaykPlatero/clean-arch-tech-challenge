@@ -1,6 +1,8 @@
 package br.com.fiap.clean_arch.presentation.controllers;
 
 import br.com.fiap.clean_arch.application.usecases.CreateRestaurantUseCase;
+import br.com.fiap.clean_arch.application.usecases.FindRestaurantUseCase;
+import br.com.fiap.clean_arch.application.usecases.UpdateRestaurantUseCase;
 import br.com.fiap.clean_arch.domain.entities.OpeningHours;
 import br.com.fiap.clean_arch.domain.entities.Restaurant;
 import br.com.fiap.clean_arch.presentation.dto.request.CreateRestaurantRequest;
@@ -22,26 +24,42 @@ import java.util.Set;
 @Tag(name = "Restaurants", description = "Restaurant management API")
 public class RestaurantController {
     private final CreateRestaurantUseCase createRestaurantUseCase;
+    private final FindRestaurantUseCase findRestaurantUseCase;
+    private final UpdateRestaurantUseCase updateRestaurantUseCase;
 
-    public RestaurantController(CreateRestaurantUseCase createRestaurantUseCase) {
+    public RestaurantController(CreateRestaurantUseCase createRestaurantUseCase,
+                               FindRestaurantUseCase findRestaurantUseCase,
+                               UpdateRestaurantUseCase updateRestaurantUseCase) {
         this.createRestaurantUseCase = createRestaurantUseCase;
+        this.findRestaurantUseCase = findRestaurantUseCase;
+        this.updateRestaurantUseCase = updateRestaurantUseCase;
     }
 
     @PostMapping
     @Operation(summary = "Create a new restaurant")
-    public ResponseEntity<RestaurantResponse> create(@Valid @RequestBody CreateRestaurantRequest request) {
-        // Map DTO to domain
+    public ResponseEntity<RestaurantResponse> createRestaurant(@Valid @RequestBody CreateRestaurantRequest request) {
         Set<OpeningHours> openingHours = OpeningHoursMapper.toDomainEntitySet(request.openingHours());
-
         Restaurant restaurant = createRestaurantUseCase.execute(
             request.name(),
-            request.address(),
             request.cuisineType(),
+            request.address(),
             new ArrayList<>(request.userIds()),
             openingHours
         );
-
-        // Map domain to DTO and return response
         return ResponseEntity.status(HttpStatus.CREATED).body(RestaurantMapper.toResponse(restaurant));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get restaurant by ID")
+    public ResponseEntity<RestaurantResponse> findById(@PathVariable Long id) {
+        Restaurant restaurant = findRestaurantUseCase.execute(id);
+        return ResponseEntity.ok(RestaurantMapper.toResponse(restaurant));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update restaurant")
+    public ResponseEntity<RestaurantResponse> update(@PathVariable Long id, @Valid @RequestBody CreateRestaurantRequest request) {
+        Restaurant restaurant = updateRestaurantUseCase.execute(id, request);
+        return ResponseEntity.ok(RestaurantMapper.toResponse(restaurant));
     }
 }

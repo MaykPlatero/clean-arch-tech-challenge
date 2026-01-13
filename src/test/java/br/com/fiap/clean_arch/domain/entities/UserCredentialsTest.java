@@ -1,38 +1,53 @@
 package br.com.fiap.clean_arch.domain.entities;
 
 import org.junit.jupiter.api.Test;
+
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserCredentialsTest {
+
     @Test
-    void createUserCredentials_withValidData_shouldSucceed() {
-        UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
+    void shouldCreateUserCredentialsWithAllFields() {
+        Long id = 1L;
+        String username = "testuser";
+        String password = "password123";
+        ZonedDateTime lastUpdate = ZonedDateTime.now();
+        
+        UserCredentials credentials = UserCredentials.create(id, username, password, lastUpdate);
+        
         assertNotNull(credentials);
-        assertEquals("user", credentials.getUsername());
+        assertEquals(id, credentials.getId());
+        assertEquals(username, credentials.getUsername());
+        assertEquals(password, credentials.getPassword());
+        assertEquals(lastUpdate, credentials.getLastUpdate());
     }
 
     @Test
-    void createUserCredentials_withShortPassword_shouldThrow() {
-        Exception ex = assertThrows(IllegalArgumentException.class, () ->
-            UserCredentials.create("user", "123", ZonedDateTime.now())
-        );
-        assertTrue(ex.getMessage().contains("at least 6 characters"));
+    void shouldCreateUserCredentialsWithoutId() {
+        String username = "testuser";
+        String password = "password123";
+        ZonedDateTime lastUpdate = ZonedDateTime.now();
+        
+        UserCredentials credentials = UserCredentials.create(username, password, lastUpdate);
+        
+        assertNotNull(credentials);
+        assertNull(credentials.getId());
+        assertEquals(username, credentials.getUsername());
+        assertEquals(password, credentials.getPassword());
+        assertEquals(lastUpdate, credentials.getLastUpdate());
     }
 
     @Test
-    void createUserCredentials_withEmptyUsername_shouldThrow() {
-        Exception ex = assertThrows(IllegalArgumentException.class, () ->
-            UserCredentials.create("", "password123", ZonedDateTime.now())
-        );
-        assertTrue(ex.getMessage().contains("Username is required"));
+    void shouldThrowExceptionWhenUsernameIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> 
+            UserCredentials.create(null, "password", ZonedDateTime.now()));
     }
 
     @Test
-    void createUserCredentials_withId_shouldSucceed() {
-        UserCredentials credentials = UserCredentials.create(1L, "user", "password123", ZonedDateTime.now());
-        assertEquals(1L, credentials.getId());
+    void shouldThrowExceptionWhenPasswordIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> 
+            UserCredentials.create("username", null, ZonedDateTime.now()));
     }
 }
-

@@ -18,8 +18,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"restaurants"})
-@ToString(exclude = {"restaurants"})
+
+
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,14 +37,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String address;
 
-    @ManyToMany
-    @JoinTable(
-        name = "user_restaurant",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "restaurant_id")
-    )
-    @JsonIgnore // Prevent infinite recursion during serialization
-    private Set<RestaurantEntity> restaurants = new HashSet<>();
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_credentials_id", nullable = false, unique = true)

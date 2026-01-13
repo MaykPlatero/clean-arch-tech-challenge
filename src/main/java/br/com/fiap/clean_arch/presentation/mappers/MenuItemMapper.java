@@ -11,8 +11,9 @@ public class MenuItemMapper {
     public static MenuItem mapToDomain(MenuItemEntity entity) {
         return MenuItem.create(
                 entity.getId(),
-                entity.getRestaurant() != null ? entity.getRestaurant().getId() : null,
+                entity.getRestaurantId(),
                 entity.getName(),
+                entity.getDescription(),
                 entity.getPrice(),
                 entity.isDeliveryItem(),
                 entity.getPhotoUrl()
@@ -24,10 +25,11 @@ public class MenuItemMapper {
                 menuItem.getId(),
                 menuItem.getRestaurantId(),
                 menuItem.getName(),
+                menuItem.getDescription(),
                 menuItem.getPrice(),
                 menuItem.isDeliveryItem(),
                 menuItem.getPhotoUrl(),
                 menuItem.getLastUpdate()
-        );
+                );
     }
 }

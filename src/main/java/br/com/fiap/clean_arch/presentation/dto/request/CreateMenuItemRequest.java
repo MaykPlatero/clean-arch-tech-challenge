@@ -14,6 +14,9 @@ public record CreateMenuItemRequest(
     @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
     String name,
 
+    @Size(min = 3, max = 255, message = "Description must be between 3 and 255 characters")
+    String description,
+
     @NotNull(message = "Price is required")
     @Positive(message = "Price must be greater than zero")
     BigDecimal price,

@@ -28,6 +28,7 @@ public class CreateMenuItemUseCase {
         MenuItem menuItem = MenuItem.create(
             request.restaurantId(),
             request.name(),
+            request.description(),
             request.price(),
             request.deliveryItem(),
             request.photoUrl(),
