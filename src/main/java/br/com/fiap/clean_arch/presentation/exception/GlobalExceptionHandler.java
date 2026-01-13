@@ -19,7 +19,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DomainException.class)
+    /*@ExceptionHandler(DomainException.class)
     public ResponseEntity<Map<String, String>> handleDomainException(DomainException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         error.put("error", ex.getMessage());
         error.put("localizedMessage", ex.getLocalizedMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-    }
+    }*/
     @ExceptionHandler(BusinessRuleViolationException.class)
     public ProblemDetail handleBusiness(
             BusinessRuleViolationException ex,
@@ -93,9 +93,6 @@ public class GlobalExceptionHandler {
 
         return problem;
     }
-
-
-
 
 
 }
