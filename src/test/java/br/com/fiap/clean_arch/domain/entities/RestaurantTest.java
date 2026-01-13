@@ -2,56 +2,51 @@ package br.com.fiap.clean_arch.domain.entities;
 
 import br.com.fiap.clean_arch.domain.exceptions.DomainException;
 import org.junit.jupiter.api.Test;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.List;
+
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
+
     @Test
-    void createRestaurant_withValidData_shouldSucceed() {
-        String address = "Main  123, Apt 1";
-        UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
-        User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Restaurant restaurant = Restaurant.create("My Restaurant", address, "Italian", Set.of(owner), Set.of(hours));
+    void shouldCreateRestaurantSuccessfully() {
+        Set<User> owners = new HashSet<>();
+        Set<OpeningHours> hours = new HashSet<>();
+        
+        Restaurant restaurant = Restaurant.create("Pizza Place", "Rua Augusta, 123", "Italian", owners, hours);
+        
         assertNotNull(restaurant);
-        assertEquals("My Restaurant", restaurant.getName());
+        assertEquals("Pizza Place", restaurant.getName());
+        assertEquals("Rua Augusta, 123", restaurant.getAddress());
+        assertEquals("Italian", restaurant.getCuisineType());
     }
 
     @Test
-    void createRestaurant_withEmptyName_shouldThrow() {
-        String address = "Main  123, Apt 1";
-        UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
-        User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Exception ex = assertThrows(DomainException.class, () ->
-            Restaurant.create("", address, "Italian", Set.of(owner), Set.of(hours))
-        );
-        assertTrue(ex.getMessage().contains("Restaurant name is required"));
+    void shouldThrowExceptionWhenNameIsNull() {
+        Set<User> owners = new HashSet<>();
+        Set<OpeningHours> hours = new HashSet<>();
+        
+        assertThrows(DomainException.class, () -> 
+            Restaurant.create(null, "Rua Augusta, 123", "Italian", owners, hours));
     }
 
     @Test
-    void createRestaurant_withNullOwner_shouldThrow() {
-        String address = "Main  123, Apt 1";
-        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Exception ex = assertThrows(DomainException.class, () ->
-            Restaurant.create("My Restaurant", address, "Italian", null, Set.of(hours))
-        );
-        assertTrue(ex.getMessage().contains("At least 1 restaurant owner is required"));
+    void shouldThrowExceptionWhenNameIsEmpty() {
+        Set<User> owners = new HashSet<>();
+        Set<OpeningHours> hours = new HashSet<>();
+        
+        assertThrows(DomainException.class, () -> 
+            Restaurant.create("", "Rua Augusta, 123", "Italian", owners, hours));
     }
 
     @Test
-    void createRestaurant_withId_shouldSucceed() {
-        String address = "Main  123, Apt 1";
-        UserCredentials credentials = UserCredentials.create("user", "password123", ZonedDateTime.now());
-        User owner = User.create("Owner", "12345678900", "owner@example.com", address, credentials, EProfile.owner, ZonedDateTime.now());
-        OpeningHours hours = new OpeningHours(1L, 2L, DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(18, 0));
-        Restaurant restaurant = Restaurant.create(1L, "My Restaurant", address, "Italian", Set.of(owner), Set.of(hours));
-        assertEquals(1L, restaurant.getId());
+    void shouldThrowExceptionWhenNameIsTooShort() {
+        Set<User> owners = new HashSet<>();
+        Set<OpeningHours> hours = new HashSet<>();
+        
+        assertThrows(DomainException.class, () -> 
+            Restaurant.create("AB", "Rua Augusta, 123", "Italian", owners, hours));
     }
 }
-

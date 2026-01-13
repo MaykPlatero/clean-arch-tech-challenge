@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "restaurant-api-collection",
+		"name": "Restaurant Management API",
+		"description": "Collection completa para testar todas as APIs do sistema de gestão de restaurantes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Restaurants",
+			"item": [
+				{
+					"name": "Create Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pizzaria Bella Vista\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana\",\n  \"userIds\": [1, 2],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"FRIDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"00:30\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Restaurant by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Restaurant",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pizzaria Bella Vista Premium\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana Gourmet\",\n  \"userIds\": [1, 2, 3],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"SATURDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"01:00\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/restaurants/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"restaurants",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Maria Santos\",\n  \"email\": \"maria@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 456 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"client\",\n  \"username\": \"maria.santos\",\n  \"password\": \"senha123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Maria Santos Silva\",\n  \"email\": \"maria.silva@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 789 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"owner\",\n  \"username\": \"maria.silva\",\n  \"password\": \"novaSenha123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Menu Items",
+			"item": [
+				{
+					"name": "Create Menu Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita\",\n  \"description\": \"Pizza tradicional italiana com molho de tomate San Marzano, mussarela de búfala, manjericão fresco e azeite extra virgem\",\n  \"price\": 42.90,\n  \"deliveryItem\": true,\n  \"photoUrl\": \"https://exemplo.com/images/pizza-margherita.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/menu-items",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"menu-items"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Menu Item by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/menu-items/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"menu-items",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Menu Items by Restaurant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/menu-items/restaurant/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"menu-items",
+								"restaurant",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Menu Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita Premium\",\n  \"description\": \"Pizza tradicional italiana com ingredientes premium\",\n  \"price\": 52.90,\n  \"deliveryItem\": true,\n  \"photoUrl\": \"https://exemplo.com/images/pizza-margherita-premium.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/menu-items/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"menu-items",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Menu Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/menu-items/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"menu-items",
+								"1"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Application Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/actuator/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

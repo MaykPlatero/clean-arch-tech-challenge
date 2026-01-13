@@ -15,23 +15,25 @@ import java.time.ZonedDateTime;
 public class MenuItem {
     private Long id;
     private String name;
+    private String description;
     private Long restaurantId;
     private BigDecimal price;
     private boolean deliveryItem;
     private String photoUrl;
     private ZonedDateTime lastUpdate;
 
-    public static MenuItem create(Long id, Long restaurantId, String name, BigDecimal price, boolean deliveryItem, String photoUrl) {
-        MenuItem menuItem = MenuItem.create(restaurantId, name, price, deliveryItem, photoUrl, ZonedDateTime.now());
+    public static MenuItem create(Long id, Long restaurantId, String name, String description, BigDecimal price, boolean deliveryItem, String photoUrl) {
+        MenuItem menuItem = MenuItem.create(restaurantId, name, description, price, deliveryItem, photoUrl, ZonedDateTime.now());
         menuItem.id = id;
         return menuItem;
     }
 
-    public static MenuItem create(Long restaurantId, String name, BigDecimal price, boolean deliveryItem, String photoUrl, ZonedDateTime lastUpdate) {
+    public static MenuItem create(Long restaurantId, String name, String description, BigDecimal price, boolean deliveryItem, String photoUrl, ZonedDateTime lastUpdate) {
         price = price.setScale(2, RoundingMode.HALF_UP);
         validateMenuItem(name, price, photoUrl);
         MenuItem menuItem = new MenuItem();
         menuItem.name = name;
+        menuItem.description = description;
         menuItem.restaurantId = restaurantId;
         menuItem.price = price;
         menuItem.deliveryItem = deliveryItem;
