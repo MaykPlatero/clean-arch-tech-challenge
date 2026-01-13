@@ -7,6 +7,7 @@ public record MenuItemResponse(
     Long id,
     Long restaurantId,
     String name,
+    String description,
     BigDecimal price,
     boolean deliveryItem,
     String photoUrl,

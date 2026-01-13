@@ -14,7 +14,7 @@ public class OpeningHoursMapper {
     public static OpeningHours toDomainEntity(OpeningHoursEntity openingHoursEntity) {
         return new OpeningHours(
             openingHoursEntity.getId(),
-            openingHoursEntity.getRestaurant().getId(),
+            openingHoursEntity.getRestaurantId(),
             openingHoursEntity.getDayOfWeek(),
             openingHoursEntity.getOpenTime(),
             openingHoursEntity.getCloseTime()

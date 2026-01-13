@@ -14,10 +14,12 @@ public class MenuItemEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
+    
+    @Column(name = "description")
+    private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private RestaurantEntity restaurant;
+    @Column(name = "restaurant_id", nullable = false)
+    private Long restaurantId;
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
@@ -35,11 +37,14 @@ public class MenuItemEntity {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public RestaurantEntity getRestaurant() { return restaurant; }
-    public void setRestaurant(RestaurantEntity restaurant) { this.restaurant = restaurant; }
+    public Long getRestaurantId() { return restaurantId; }
+    public void setRestaurantId(Long restaurantId) { this.restaurantId = restaurantId; }
 
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
