@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problem.setType(ProblemType.VALIDATION_ERROR.getUri());
         problem.setTitle(ProblemType.VALIDATION_ERROR.getTitle());
-        problem.setDetail(ex.getMessage());
+        problem.setDetail("um ou mais campos inválidos " + ex.getMessage());
         problem.setInstance(URI.create(request.getRequestURI()));
 
         Map<String, String> errors = new HashMap<>();
