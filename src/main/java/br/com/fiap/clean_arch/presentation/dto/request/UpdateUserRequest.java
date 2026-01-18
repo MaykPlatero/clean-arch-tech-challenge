@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record UpdateUserRequest(
 
-                                @Pattern(regexp = "^[A-Za-zÀ-ÿ ]+$", message = "Nome deve conter apenas letras")
+                                @Pattern(regexp = "^[A-Za-zÀ-ÿ ]+$", message = "Name must contain only letters")
                                 String name,
                                 @Email
                                  String email,
