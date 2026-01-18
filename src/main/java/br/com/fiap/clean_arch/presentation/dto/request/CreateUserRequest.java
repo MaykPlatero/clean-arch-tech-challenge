@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record CreateUserRequest(
         @NotBlank(message = "Name are required")
-        @Pattern(regexp = "^[A-Za-zÀ-ÿ ]+$", message = "Nome deve conter apenas letras")
+        @Pattern(regexp = "^[A-Za-zÀ-ÿ ]+$", message = "Name must contain only letters")
         String name,
         @NotBlank(message = "Email are required")
         @Email(message = "Email must be valid")

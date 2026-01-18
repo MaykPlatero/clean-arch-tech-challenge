@@ -5,19 +5,19 @@ import java.net.URI;
 public enum ProblemType {
     BUSINESS_ERROR(
             "http://fiap.com.br/problems/business-error",
-            "Erro de negócio"
+            "Business error"
     ),
     RESOUCE_NOT_FOUND(
             "https://fiap.com.br/problems/resouce-not-found",
-            "Recurso não encontrado"
+            "Resource not found"
     ),
     VALIDATION_ERROR(
             "https://fiap.com.br/problems/validation-error",
-            "Erro de validação"
+            "Validation error"
     ),
     INTERNAL_ERROR(
             "https://fiap.com.br/problems/internal-error",
-            "Erro interno"
+            "Internal error"
     );
     private final String uri;
     private final String title;
