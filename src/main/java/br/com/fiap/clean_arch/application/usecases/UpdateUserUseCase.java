@@ -4,7 +4,6 @@ import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
-import br.com.fiap.clean_arch.presentation.dto.request.UpdateUserRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -17,44 +16,37 @@ public class UpdateUserUseCase {
         this.userRepository = userRepository;
     }
 
-    public User execute(Long id, UpdateUserRequest updateUserRequest) {
+    public User execute(Long id, String name, String userIdentification, String email, 
+                       String address, String username, String password, String profileStr) {
         User existingUser = userRepository.findById(id);
 
         if (existingUser == null) {
             throw new IllegalArgumentException("User not found");
         }
 
-        updateUserParams(updateUserRequest, existingUser);
-
-        return userRepository.save(existingUser);
-    }
-
-    private static void updateUserParams(UpdateUserRequest updateUserRequest, User existingUser) {
-        if (updateUserRequest.name() != null) {
-            existingUser.setName(updateUserRequest.name());
+        if (name != null) {
+            existingUser.setName(name);
         }
-        if (updateUserRequest.userIdentification() != null) {
-            existingUser.setUserIdentification(updateUserRequest.userIdentification());
+        if (userIdentification != null) {
+            existingUser.setUserIdentification(userIdentification);
         }
-        if (updateUserRequest.email() != null) {
-            existingUser.setEmail(updateUserRequest.email());
+        if (email != null) {
+            existingUser.setEmail(email);
         }
-        if (updateUserRequest.address() != null) {
-            existingUser.setAddress(updateUserRequest.address());
+        if (address != null) {
+            existingUser.setAddress(address);
         }
-        if (updateUserRequest.profile() != null) {
-            existingUser.setProfile(EProfile.valueOf(updateUserRequest.profile()));
+        if (profileStr != null) {
+            existingUser.setProfile(EProfile.valueOf(profileStr.toUpperCase()));
         }
 
-        if (updateUserRequest.username() != null || updateUserRequest.password() != null) {
+        if (username != null || password != null) {
             UserCredentials existingUserCredentials = existingUser.getUserCredentials();
-            String username = updateUserRequest.username() == null ? existingUserCredentials.getUsername()
-                    : updateUserRequest.username();
-            String password = updateUserRequest.password() == null ? existingUserCredentials.getPassword()
-                    : updateUserRequest.password();
-            existingUser.setUserCredentials(UserCredentials.create(username, password, null));
+            existingUserCredentials.updateCredentials(username, password);
         }
 
         existingUser.setLastUpdate(ZonedDateTime.now());
+
+        return userRepository.save(existingUser);
     }
 }

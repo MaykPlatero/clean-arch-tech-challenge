@@ -4,9 +4,9 @@ import br.com.fiap.clean_arch.application.ports.MenuItemRepository;
 import br.com.fiap.clean_arch.application.ports.RestaurantRepository;
 import br.com.fiap.clean_arch.domain.entities.MenuItem;
 import br.com.fiap.clean_arch.domain.entities.Restaurant;
-import br.com.fiap.clean_arch.presentation.dto.request.CreateMenuItemRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Service
@@ -19,23 +19,23 @@ public class CreateMenuItemUseCase {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public MenuItem execute(CreateMenuItemRequest request) {
-        Restaurant restaurant = restaurantRepository.findById(request.restaurantId());
+    public MenuItem execute(Long restaurantId, String name, String description, BigDecimal price, 
+                           Boolean deliveryItem, String photoUrl) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
-            throw new IllegalArgumentException("Restaurant with ID " + request.restaurantId() + " not found.");
+            throw new IllegalArgumentException("Restaurant with ID " + restaurantId + " not found.");
         }
 
         MenuItem menuItem = MenuItem.create(
-            request.restaurantId(),
-            request.name(),
-            request.description(),
-            request.price(),
-            request.deliveryItem(),
-            request.photoUrl(),
+            restaurantId,
+            name,
+            description,
+            price,
+            deliveryItem,
+            photoUrl,
             ZonedDateTime.now()
         );
 
         return menuItemRepository.save(menuItem);
     }
 }
-

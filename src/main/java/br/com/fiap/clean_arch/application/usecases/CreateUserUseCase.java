@@ -1,9 +1,9 @@
 package br.com.fiap.clean_arch.application.usecases;
 
 import br.com.fiap.clean_arch.application.ports.UserRepository;
+import br.com.fiap.clean_arch.domain.entities.EProfile;
 import br.com.fiap.clean_arch.domain.entities.User;
-import br.com.fiap.clean_arch.presentation.dto.request.CreateUserRequest;
-import br.com.fiap.clean_arch.presentation.mappers.UserMapper;
+import br.com.fiap.clean_arch.domain.entities.UserCredentials;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -17,12 +17,20 @@ public class CreateUserUseCase {
         this.userRepository = userRepository;
     }
 
-    public User execute(CreateUserRequest createUserRequest) {
-        User user = UserMapper.toDomainEntity(createUserRequest);
-        user.setLastUpdate(ZonedDateTime.now());
-
-        // Add validations here if needed
-        // Is email already in use?
+    public User execute(String name, String userIdentification, String email, String address, 
+                       String username, String password, String profileStr) {
+        EProfile profile = EProfile.valueOf(profileStr.toUpperCase());
+        UserCredentials userCredentials = UserCredentials.create(username, password, null);
+        
+        User user = User.create(
+            name,
+            userIdentification,
+            email,
+            address,
+            userCredentials,
+            profile,
+            ZonedDateTime.now()
+        );
 
         return userRepository.save(user);
     }

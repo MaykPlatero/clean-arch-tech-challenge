@@ -23,7 +23,7 @@ class UserEntityTest {
         entity.setEmail("john@test.com");
         entity.setAddress("Rua A, 123");
         entity.setUserCredentials(credentials);
-        entity.setProfile(EProfile.client);
+        entity.setProfile(EProfile.CLIENT);
         entity.setLastUpdate(ZonedDateTime.now());
         
         assertNotNull(entity);
@@ -32,7 +32,7 @@ class UserEntityTest {
         assertEquals("123456789", entity.getUserIdentification());
         assertEquals("john@test.com", entity.getEmail());
         assertEquals("Rua A, 123", entity.getAddress());
-        assertEquals(EProfile.client, entity.getProfile());
+        assertEquals(EProfile.CLIENT, entity.getProfile());
         assertNotNull(entity.getUserCredentials());
         assertNotNull(entity.getLastUpdate());
     }

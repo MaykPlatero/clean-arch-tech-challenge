@@ -5,14 +5,17 @@ import br.com.fiap.clean_arch.infrastructure.persistence.entity.MenuItemEntity;
 import br.com.fiap.clean_arch.infrastructure.persistence.repository.MenuItemJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class MenuItemRepositoryAdapterTest {
@@ -20,35 +23,60 @@ class MenuItemRepositoryAdapterTest {
     @Mock
     private MenuItemJpaRepository menuItemJpaRepository;
 
-    private MenuItemRepositoryAdapter adapter;
+    @InjectMocks
+    private MenuItemRepositoryAdapter menuItemRepositoryAdapter;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        adapter = new MenuItemRepositoryAdapter(menuItemJpaRepository);
     }
 
     @Test
-    void shouldSaveMenuItem() {
-        MenuItem menuItem = MenuItem.create(1L, 10L, "Pizza", "Delicious", BigDecimal.valueOf(25.99), true, "http://photo.jpg");
-        
-        MenuItemEntity savedEntity = new MenuItemEntity();
-        savedEntity.setId(1L);
-        savedEntity.setName("Pizza");
-        savedEntity.setDescription("Delicious");
-        savedEntity.setPrice(BigDecimal.valueOf(25.99));
-        savedEntity.setDeliveryItem(true);
-        savedEntity.setPhotoUrl("http://photo.jpg");
-        savedEntity.setRestaurantId(10L);
-        savedEntity.setLastUpdate(ZonedDateTime.now());
-        
-        when(menuItemJpaRepository.save(any(MenuItemEntity.class))).thenReturn(savedEntity);
-        
-        MenuItem result = adapter.save(menuItem);
-        
+    void shouldFindMenuItemById() {
+        MenuItemEntity entity = new MenuItemEntity();
+        entity.setId(1L);
+        entity.setRestaurantId(1L);
+        entity.setName("Pizza");
+        entity.setDescription("Delicious");
+        entity.setPrice(BigDecimal.valueOf(30.0));
+        entity.setDeliveryItem(true);
+        entity.setPhotoUrl("http://photo.jpg");
+        entity.setLastUpdate(ZonedDateTime.now());
+
+        when(menuItemJpaRepository.findById(1L)).thenReturn(Optional.of(entity));
+
+        MenuItem result = menuItemRepositoryAdapter.findById(1L);
+
         assertNotNull(result);
-        assertEquals(1L, result.getId());
         assertEquals("Pizza", result.getName());
-        verify(menuItemJpaRepository).save(any(MenuItemEntity.class));
+        verify(menuItemJpaRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void shouldFindMenuItemsByRestaurantId() {
+        MenuItemEntity entity1 = new MenuItemEntity();
+        entity1.setId(1L);
+        entity1.setRestaurantId(1L);
+        entity1.setName("Pizza");
+        entity1.setDescription("Delicious");
+        entity1.setPrice(BigDecimal.valueOf(30.0));
+        entity1.setDeliveryItem(true);
+        entity1.setPhotoUrl("http://photo1.jpg");
+        entity1.setLastUpdate(ZonedDateTime.now());
+
+        when(menuItemJpaRepository.findByRestaurantId(1L)).thenReturn(Arrays.asList(entity1));
+
+        List<MenuItem> result = menuItemRepositoryAdapter.findByRestaurantId(1L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(menuItemJpaRepository, times(1)).findByRestaurantId(1L);
+    }
+
+    @Test
+    void shouldDeleteMenuItemById() {
+        menuItemRepositoryAdapter.deleteById(1L);
+
+        verify(menuItemJpaRepository, times(1)).deleteById(1L);
     }
 }

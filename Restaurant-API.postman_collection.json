@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Pizzaria Bella Vista\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana\",\n  \"userIds\": [1, 2],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"FRIDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"00:30\"\n    }\n  ]\n}"
+							"raw": "{\n  \"name\": \"Pizzaria Bella Vista\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana\",\n  \"capacity\": 80,\n  \"userIds\": [],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"FRIDAY\",\n      \"openTime\": \"18:00\",\n      \"closeTime\": \"00:30\"\n    }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/restaurants",
@@ -32,7 +32,8 @@
 								"api",
 								"restaurants"
 							]
-						}
+						},
+						"description": "Cria um novo restaurante no sistema"
 					}
 				},
 				{
@@ -50,7 +51,8 @@
 								"restaurants",
 								"1"
 							]
-						}
+						},
+						"description": "Busca um restaurante pelo ID"
 					}
 				},
 				{
@@ -65,7 +67,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Pizzaria Bella Vista Premium\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana Gourmet\",\n  \"userIds\": [1, 2, 3],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"SATURDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"01:00\"\n    }\n  ]\n}"
+							"raw": "{\n  \"name\": \"Pizzaria Bella Vista Premium\",\n  \"address\": \"Rua Augusta, 1234 - Consolação, São Paulo - SP\",\n  \"cuisineType\": \"Italiana Gourmet\",\n  \"capacity\": 100,\n  \"userIds\": [],\n  \"openingHours\": [\n    {\n      \"dayOfWeek\": \"MONDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"23:30\"\n    },\n    {\n      \"dayOfWeek\": \"SATURDAY\",\n      \"openTime\": \"17:00\",\n      \"closeTime\": \"01:00\"\n    }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/restaurants/1",
@@ -77,7 +79,8 @@
 								"restaurants",
 								"1"
 							]
-						}
+						},
+						"description": "Atualiza os dados de um restaurante existente"
 					}
 				}
 			]
@@ -97,7 +100,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Maria Santos\",\n  \"email\": \"maria@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 456 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"client\",\n  \"username\": \"maria.santos\",\n  \"password\": \"senha123456\"\n}"
+							"raw": "{\n  \"name\": \"Maria Santos\",\n  \"email\": \"maria@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 456 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"CLIENT\",\n  \"username\": \"maria.santos\",\n  \"password\": \"senha123456\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/users",
@@ -108,7 +111,8 @@
 								"api",
 								"users"
 							]
-						}
+						},
+						"description": "Cria um novo usuário. Profiles disponíveis: CLIENT, OWNER, ADMIN"
 					}
 				},
 				{
@@ -126,7 +130,8 @@
 								"users",
 								"1"
 							]
-						}
+						},
+						"description": "Busca um usuário pelo ID"
 					}
 				},
 				{
@@ -141,7 +146,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"Maria Santos Silva\",\n  \"email\": \"maria.silva@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 789 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"owner\",\n  \"username\": \"maria.silva\",\n  \"password\": \"novaSenha123\"\n}"
+							"raw": "{\n  \"name\": \"Maria Santos Silva\",\n  \"email\": \"maria.silva@email.com\",\n  \"userIdentification\": \"12345678901\",\n  \"address\": \"Rua das Flores, 789 - Vila Madalena, São Paulo - SP\",\n  \"profile\": \"OWNER\",\n  \"username\": \"maria.silva\",\n  \"password\": \"novaSenha123\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/users/1",
@@ -153,7 +158,8 @@
 								"users",
 								"1"
 							]
-						}
+						},
+						"description": "Atualiza os dados de um usuário existente. Username e password são opcionais."
 					}
 				},
 				{
@@ -171,7 +177,8 @@
 								"users",
 								"1"
 							]
-						}
+						},
+						"description": "Remove um usuário do sistema"
 					}
 				}
 			]
@@ -191,7 +198,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita\",\n  \"description\": \"Pizza tradicional italiana com molho de tomate San Marzano, mussarela de búfala, manjericão fresco e azeite extra virgem\",\n  \"price\": 42.90,\n  \"deliveryItem\": true,\n  \"photoUrl\": \"https://exemplo.com/images/pizza-margherita.jpg\"\n}"
+							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita\",\n  \"description\": \"Pizza tradicional italiana com molho de tomate San Marzano, mussarela de búfala, manjericão fresco e azeite extra virgem\",\n  \"price\": 42.90,\n  \"category\": \"MAIN_COURSE\",\n  \"deliveryItem\": true,\n  \"photoUrl\": \"https://example.com/images/pizza-margherita.jpg\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/menu-items",
@@ -202,7 +209,8 @@
 								"api",
 								"menu-items"
 							]
-						}
+						},
+						"description": "Cria um novo item de menu para um restaurante"
 					}
 				},
 				{
@@ -220,7 +228,8 @@
 								"menu-items",
 								"1"
 							]
-						}
+						},
+						"description": "Busca um item de menu pelo ID"
 					}
 				},
 				{
@@ -239,7 +248,8 @@
 								"restaurant",
 								"1"
 							]
-						}
+						},
+						"description": "Lista todos os itens de menu de um restaurante específico"
 					}
 				},
 				{
@@ -254,7 +264,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita Premium\",\n  \"description\": \"Pizza tradicional italiana com ingredientes premium\",\n  \"price\": 52.90,\n  \"deliveryItem\": true,\n  \"photoUrl\": \"https://exemplo.com/images/pizza-margherita-premium.jpg\"\n}"
+							"raw": "{\n  \"restaurantId\": 1,\n  \"name\": \"Pizza Margherita Premium\",\n  \"description\": \"Pizza tradicional italiana com ingredientes premium importados\",\n  \"price\": 52.90,\n  \"category\": \"MAIN_COURSE\",\n  \"deliveryItem\": false,\n  \"photoUrl\": \"https://example.com/images/pizza-margherita-premium.jpg\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/menu-items/1",
@@ -266,7 +276,8 @@
 								"menu-items",
 								"1"
 							]
-						}
+						},
+						"description": "Atualiza os dados de um item de menu existente"
 					}
 				},
 				{
@@ -284,13 +295,14 @@
 								"menu-items",
 								"1"
 							]
-						}
+						},
+						"description": "Remove um item de menu do sistema"
 					}
 				}
 			]
 		},
 		{
-			"name": "Health Check",
+			"name": "Health & Documentation",
 			"item": [
 				{
 					"name": "Application Health",
@@ -306,7 +318,43 @@
 								"actuator",
 								"health"
 							]
-						}
+						},
+						"description": "Verifica o status de saúde da aplicação"
+					}
+				},
+				{
+					"name": "Swagger UI",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/swagger-ui/index.html",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"swagger-ui",
+								"index.html"
+							]
+						},
+						"description": "Acessa a documentação interativa da API (Swagger)"
+					}
+				},
+				{
+					"name": "OpenAPI Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api-docs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api-docs"
+							]
+						},
+						"description": "Retorna a especificação OpenAPI em JSON"
 					}
 				}
 			]

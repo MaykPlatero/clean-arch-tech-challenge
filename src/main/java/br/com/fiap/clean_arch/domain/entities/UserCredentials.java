@@ -42,4 +42,20 @@ public class UserCredentials {
             throw new IllegalArgumentException("Password must be at least 6 characters");
         }
     }
+
+    public void updateCredentials(String username, String password) {
+        if (username != null) {
+            if (username.trim().isEmpty()) {
+                throw new IllegalArgumentException("Username cannot be empty");
+            }
+            this.username = username;
+        }
+        if (password != null) {
+            if (password.length() < 6) {
+                throw new IllegalArgumentException("Password must be at least 6 characters");
+            }
+            this.password = password;
+        }
+        this.lastUpdate = ZonedDateTime.now();
+    }
 }

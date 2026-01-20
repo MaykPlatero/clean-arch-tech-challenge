@@ -4,7 +4,6 @@ import br.com.fiap.clean_arch.application.ports.UserRepository;
 import br.com.fiap.clean_arch.domain.entities.User;
 import br.com.fiap.clean_arch.domain.entities.UserCredentials;
 import br.com.fiap.clean_arch.domain.entities.EProfile;
-import br.com.fiap.clean_arch.presentation.dto.request.CreateUserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -31,13 +30,12 @@ class CreateUserUseCaseTest {
 
     @Test
     void shouldCreateUserSuccessfully() {
-        CreateUserRequest request = new CreateUserRequest("John", "john@test.com", "123", "Address", "client", "username", "password123");
         UserCredentials credentials = UserCredentials.create(1L, "username", "password123", ZonedDateTime.now());
-        User savedUser = User.create(1L, "John", "123", "john@test.com", "Address", credentials, EProfile.client, ZonedDateTime.now());
+        User savedUser = User.create(1L, "John", "123", "john@test.com", "Address", credentials, EProfile.CLIENT, ZonedDateTime.now());
         
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
         
-        User result = createUserUseCase.execute(request);
+        User result = createUserUseCase.execute("John", "123", "john@test.com", "Address", "username", "password123", "client");
         
         assertNotNull(result);
         assertEquals("John", result.getName());

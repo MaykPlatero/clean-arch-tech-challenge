@@ -1,9 +1,9 @@
 package br.com.fiap.clean_arch.domain.entities;
 
 public enum EProfile {
-    client("Cliente"),
-    owner("Proprietário"),
-    admin("Administrador");
+    CLIENT("Cliente"),
+    OWNER("Proprietário"),
+    ADMIN("Administrador");
 
     private String desciption;
 
@@ -16,4 +16,3 @@ public enum EProfile {
     }
 
 }
-

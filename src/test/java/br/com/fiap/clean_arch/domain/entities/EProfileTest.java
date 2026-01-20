@@ -8,16 +8,16 @@ class EProfileTest {
 
     @Test
     void shouldHaveCorrectEnumValues() {
-        assertEquals("admin", EProfile.admin.toString());
-        assertEquals("client", EProfile.client.toString());
-        assertEquals("owner", EProfile.owner.toString());
+        assertEquals("ADMIN", EProfile.ADMIN.toString());
+        assertEquals("CLIENT", EProfile.CLIENT.toString());
+        assertEquals("OWNER", EProfile.OWNER.toString());
     }
 
     @Test
     void shouldReturnCorrectValueOf() {
-        assertEquals(EProfile.admin, EProfile.valueOf("admin"));
-        assertEquals(EProfile.client, EProfile.valueOf("client"));
-        assertEquals(EProfile.owner, EProfile.valueOf("owner"));
+        assertEquals(EProfile.ADMIN, EProfile.valueOf("ADMIN"));
+        assertEquals(EProfile.CLIENT, EProfile.valueOf("CLIENT"));
+        assertEquals(EProfile.OWNER, EProfile.valueOf("OWNER"));
     }
 
     @Test

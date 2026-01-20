@@ -35,8 +35,16 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Create a new user")
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
-        User user = createUserUseCase.execute(createUserRequest);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
+        User user = createUserUseCase.execute(
+            request.name(),
+            request.userIdentification(),
+            request.email(),
+            request.address(),
+            request.username(),
+            request.password(),
+            request.profile()
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toResponse(user));
     }
 
@@ -49,8 +57,17 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing user")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
-        User updatedUser = updateUserUseCase.execute(id, updateUserRequest);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+        User updatedUser = updateUserUseCase.execute(
+            id,
+            request.name(),
+            request.userIdentification(),
+            request.email(),
+            request.address(),
+            request.username(),
+            request.password(),
+            request.profile()
+        );
         return ResponseEntity.ok(UserMapper.toResponse(updatedUser));
     }
 

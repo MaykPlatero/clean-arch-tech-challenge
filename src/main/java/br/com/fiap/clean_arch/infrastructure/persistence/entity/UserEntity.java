@@ -42,7 +42,7 @@ public class UserEntity {
     @JoinColumn(name = "user_credentials_id", nullable = false, unique = true)
     private UserCredentialsEntity userCredentials;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(255) CHECK (profile IN ('CLIENT', 'OWNER', 'ADMIN'))")
     @Enumerated(EnumType.STRING)
     private EProfile profile;
 

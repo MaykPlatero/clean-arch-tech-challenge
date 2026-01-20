@@ -62,7 +62,7 @@ class RestaurantRepositoryAdapterTest {
         userEntity.setEmail("john@example.com");
         userEntity.setAddress("Rua A, 123");
         userEntity.setUserCredentials(credentialsEntity);
-        userEntity.setProfile(br.com.fiap.clean_arch.domain.entities.EProfile.client);
+        userEntity.setProfile(br.com.fiap.clean_arch.domain.entities.EProfile.CLIENT);
         
         UserRestaurantEntity userRestaurantEntity = new UserRestaurantEntity();
         userRestaurantEntity.setUserId(1L);

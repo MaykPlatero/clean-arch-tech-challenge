@@ -13,7 +13,7 @@ class UserTest {
         UserCredentials credentials = UserCredentials.create(1L, "testuser", "password", ZonedDateTime.now());
         
         User user = User.create(1L, "John Doe", "123456789", "john@test.com", 
-            "Rua A, 123", credentials, EProfile.client, ZonedDateTime.now());
+            "Rua A, 123", credentials, EProfile.CLIENT, ZonedDateTime.now());
         
         assertNotNull(user);
         assertEquals(1L, user.getId());
@@ -21,7 +21,7 @@ class UserTest {
         assertEquals("123456789", user.getUserIdentification());
         assertEquals("john@test.com", user.getEmail());
         assertEquals("Rua A, 123", user.getAddress());
-        assertEquals(EProfile.client, user.getProfile());
+        assertEquals(EProfile.CLIENT, user.getProfile());
         assertNotNull(user.getUserCredentials());
     }
 
@@ -30,7 +30,7 @@ class UserTest {
         UserCredentials credentials = UserCredentials.create("testuser", "password", ZonedDateTime.now());
         
         User user = User.create("John Doe", "123456789", "john@test.com", 
-            "Rua A, 123", credentials, EProfile.client, ZonedDateTime.now());
+            "Rua A, 123", credentials, EProfile.CLIENT, ZonedDateTime.now());
         
         assertNotNull(user);
         assertNull(user.getId());
@@ -42,7 +42,7 @@ class UserTest {
         UserCredentials credentials = UserCredentials.create("testuser", "password", ZonedDateTime.now());
         
         assertThrows(IllegalArgumentException.class, () -> 
-            User.create(null, "123456789", "john@test.com", "Address", credentials, EProfile.client, ZonedDateTime.now()));
+            User.create(null, "123456789", "john@test.com", "Address", credentials, EProfile.CLIENT, ZonedDateTime.now()));
     }
 
     @Test
@@ -50,6 +50,6 @@ class UserTest {
         UserCredentials credentials = UserCredentials.create("testuser", "password", ZonedDateTime.now());
         
         assertThrows(IllegalArgumentException.class, () -> 
-            User.create("John", "123456789", null, "Address", credentials, EProfile.client, ZonedDateTime.now()));
+            User.create("John", "123456789", null, "Address", credentials, EProfile.CLIENT, ZonedDateTime.now()));
     }
 }

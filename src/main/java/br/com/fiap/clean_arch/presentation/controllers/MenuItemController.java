@@ -43,7 +43,14 @@ public class MenuItemController {
     @PostMapping
     @Operation(summary = "Create a new menu item")
     public ResponseEntity<MenuItemResponse> create(@Valid @RequestBody CreateMenuItemRequest request) {
-        MenuItem menuItem = createMenuItemUseCase.execute(request);
+        MenuItem menuItem = createMenuItemUseCase.execute(
+            request.restaurantId(),
+            request.name(),
+            request.description(),
+            request.price(),
+            request.deliveryItem(),
+            request.photoUrl()
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(MenuItemMapper.toResponse(menuItem));
     }
 
@@ -67,7 +74,15 @@ public class MenuItemController {
     @PutMapping("/{id}")
     @Operation(summary = "Update menu item")
     public ResponseEntity<MenuItemResponse> update(@PathVariable Long id, @Valid @RequestBody CreateMenuItemRequest request) {
-        MenuItem menuItem = updateMenuItemUseCase.execute(id, request);
+        MenuItem menuItem = updateMenuItemUseCase.execute(
+            id,
+            request.restaurantId(),
+            request.name(),
+            request.description(),
+            request.price(),
+            request.deliveryItem(),
+            request.photoUrl()
+        );
         return ResponseEntity.ok(MenuItemMapper.toResponse(menuItem));
     }
 

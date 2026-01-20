@@ -85,10 +85,12 @@ public class GlobalExceptionHandler {
             Exception ex,
             HttpServletRequest request) {
 
+        ex.printStackTrace();
+
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         problem.setType(ProblemType.INTERNAL_ERROR.getUri());
         problem.setTitle(ProblemType.INTERNAL_ERROR.getTitle());
-        problem.setDetail("Erro inesperado. Contate o suporte.");
+        problem.setDetail("Erro: " + ex.getMessage() + " - Tipo: " + ex.getClass().getSimpleName() + "");
         problem.setInstance(URI.create(request.getRequestURI()));
 
         return problem;

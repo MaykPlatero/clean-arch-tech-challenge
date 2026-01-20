@@ -2,8 +2,9 @@ package br.com.fiap.clean_arch.application.usecases;
 
 import br.com.fiap.clean_arch.application.ports.MenuItemRepository;
 import br.com.fiap.clean_arch.domain.entities.MenuItem;
-import br.com.fiap.clean_arch.presentation.dto.request.CreateMenuItemRequest;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class UpdateMenuItemUseCase {
@@ -13,7 +14,8 @@ public class UpdateMenuItemUseCase {
         this.menuItemRepository = menuItemRepository;
     }
 
-    public MenuItem execute(Long id, CreateMenuItemRequest request) {
+    public MenuItem execute(Long id, Long restaurantId, String name, String description, 
+                           BigDecimal price, Boolean deliveryItem, String photoUrl) {
         MenuItem existingItem = menuItemRepository.findById(id);
         if (existingItem == null) {
             throw new RuntimeException("Menu item not found with id: " + id);
@@ -21,12 +23,12 @@ public class UpdateMenuItemUseCase {
 
         MenuItem updatedItem = MenuItem.create(
             id,
-            request.restaurantId(),
-            request.name(),
-            request.description(),
-            request.price(),
-            request.deliveryItem(),
-            request.photoUrl()
+            restaurantId,
+            name,
+            description,
+            price,
+            deliveryItem,
+            photoUrl
         );
 
         return menuItemRepository.save(updatedItem);

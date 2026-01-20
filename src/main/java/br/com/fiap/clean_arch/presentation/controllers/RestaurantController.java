@@ -41,8 +41,8 @@ public class RestaurantController {
         Set<OpeningHours> openingHours = OpeningHoursMapper.toDomainEntitySet(request.openingHours());
         Restaurant restaurant = createRestaurantUseCase.execute(
             request.name(),
-            request.cuisineType(),
             request.address(),
+            request.cuisineType(),
             new ArrayList<>(request.userIds()),
             openingHours
         );
@@ -59,7 +59,14 @@ public class RestaurantController {
     @PutMapping("/{id}")
     @Operation(summary = "Update restaurant")
     public ResponseEntity<RestaurantResponse> update(@PathVariable Long id, @Valid @RequestBody CreateRestaurantRequest request) {
-        Restaurant restaurant = updateRestaurantUseCase.execute(id, request);
+        Set<OpeningHours> openingHours = OpeningHoursMapper.toDomainEntitySet(request.openingHours());
+        Restaurant restaurant = updateRestaurantUseCase.execute(
+            id,
+            request.name(),
+            request.address(),
+            request.cuisineType(),
+            openingHours
+        );
         return ResponseEntity.ok(RestaurantMapper.toResponse(restaurant));
     }
 }
