@@ -300,64 +300,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Health & Documentation",
-			"item": [
-				{
-					"name": "Application Health",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/actuator/health",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"actuator",
-								"health"
-							]
-						},
-						"description": "Verifica o status de saúde da aplicação"
-					}
-				},
-				{
-					"name": "Swagger UI",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/swagger-ui/index.html",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"swagger-ui",
-								"index.html"
-							]
-						},
-						"description": "Acessa a documentação interativa da API (Swagger)"
-					}
-				},
-				{
-					"name": "OpenAPI Docs",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api-docs",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api-docs"
-							]
-						},
-						"description": "Retorna a especificação OpenAPI em JSON"
-					}
-				}
-			]
 		}
 	],
 	"variable": [
