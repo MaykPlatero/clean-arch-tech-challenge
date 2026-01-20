@@ -1,36 +1,26 @@
-.PHONY: help build run test clean docker-up docker-down docker-logs db-only
+.PHONY: help run stop reset
 
 help:
-	@echo "Comandos disponíveis:"
-	@echo "  make build        - Compila o projeto"
-	@echo "  make run          - Executa a aplicação localmente"
-	@echo "  make test         - Executa os testes"
-	@echo "  make clean        - Limpa o build"
-	@echo "  make docker-up    - Sobe aplicação + PostgreSQL no Docker"
-	@echo "  make docker-down  - Para os containers"
-	@echo "  make docker-logs  - Exibe logs dos containers"
-	@echo "  make db-only      - Sobe apenas o PostgreSQL"
-
-build:
-	./mvnw clean package -DskipTests
+	@echo "=== Restaurant Management API - Comandos Disponíveis ==="
+	@echo ""
+	@echo "  make run     - Inicia a aplicação (Docker Compose com build)"
+	@echo "  make stop    - Para a aplicação"
+	@echo "  make reset   - Remove containers, volumes e dados"
+	@echo ""
 
 run:
-	./mvnw spring-boot:run
+	@echo "🚀 Iniciando aplicação..."
+	docker-compose up -d --build
+	@echo "✅ Aplicação iniciada!"
+	@echo "📚 Swagger: http://localhost:8080/swagger-ui/index.html"
+	@echo "🏥 Health: http://localhost:8080/actuator/health"
 
-test:
-	./mvnw test
-
-clean:
-	./mvnw clean
-
-docker-up:
-	docker-compose up -d
-
-docker-down:
+stop:
+	@echo "⏸️  Parando aplicação..."
 	docker-compose down
+	@echo "✅ Aplicação parada!"
 
-docker-logs:
-	docker-compose logs -f
-
-db-only:
-	docker-compose up -d postgres
+reset:
+	@echo "🗑️  Removendo containers, volumes e dados..."
+	docker-compose down -v
+	@echo "✅ Tudo limpo! Execute 'make run' para reiniciar."
