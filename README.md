@@ -1,353 +1,191 @@
 # Tech Challenge Fase 2 - Restaurant Management API
 
-Sistema de gestão de restaurantes desenvolvido pela nossa equipe utilizando **Clean Architecture** com Java 21 e Spring Boot 3.3.6.
+Sistema de gestão de restaurantes desenvolvido utilizando **Clean Architecture** com Java 21 e Spring Boot 3.3.6.
 
 ## 👥 Equipe de Desenvolvimento
 
-Este projeto foi desenvolvido colaborativamente por nossa equipe para atender aos requisitos do Tech Challenge Fase 2 - FIAP Pós-Tech.
+- **Carlos Eduardo Ferreira Lins**
+- **João Victor Morito da Silva**
+- **Júlio Gurgel Fontes**
+- **Mayk Pintor Platero**
+- **Rodrigo Antônio Bagnara**
+
+**Instituição**: FIAP - Pós-Tech Arquitetura de Software  
+**Fase**: Tech Challenge Fase 2
+
+---
 
 ## 📋 Sobre o Projeto
 
 O **Restaurant Management API** é um sistema completo para gestão de restaurantes que permite:
 
-- 🍽️ **Gestão de Restaurantes**: Cadastro e consulta de restaurantes com horários de funcionamento
-- 👥 **Gestão de Usuários**: Sistema completo de usuários com diferentes perfis (admin, cliente, proprietário)
-- 🍕 **Gestão de Cardápio**: CRUD completo para itens do menu com preços e fotos
-- 📊 **Documentação Interativa**: Interface Swagger para testes das APIs
+- 🍽️ **Gestão de Restaurantes**: Cadastro, consulta e atualização de restaurantes com horários de funcionamento
+- 👥 **Gestão de Usuários**: Sistema completo de usuários com diferentes perfis (CLIENT, OWNER, ADMIN)
+- 🍕 **Gestão de Cardápio**: CRUD completo para itens do menu com preços, descrições e fotos
+- 📊 **Documentação Interativa**: Interface Swagger/OpenAPI para testes e exploração das APIs
+
+---
 
 ## 🏗️ Arquitetura
 
-Implementamos **Clean Architecture** para garantir separação de responsabilidades e facilitar manutenção:
+Implementamos **Clean Architecture** para garantir separação de responsabilidades, baixo acoplamento e alta coesão:
 
 ```
 src/main/java/br/com/fiap/clean_arch/
 ├── domain/              # 🎯 Regras de negócio puras
-│   ├── entities/        # Entidades principais (Restaurant, User, MenuItem)
+│   ├── entities/        # Entidades (Restaurant, User, MenuItem, OpeningHours)
 │   └── exceptions/      # Exceções de domínio
 ├── application/         # 🔄 Casos de uso
 │   ├── usecases/        # Lógica de aplicação
-│   └── ports/           # Contratos/Interfaces
+│   └── ports/           # Contratos/Interfaces (Repositories)
 ├── infrastructure/      # 🔧 Implementações técnicas
 │   ├── adapters/        # Implementação dos contratos
-│   ├── persistence/     # Entidades JPA e repositórios
+│   ├── persistence/     # Entidades JPA e repositórios Spring Data
 │   └── config/          # Configurações Spring
 └── presentation/        # 🌐 Interface REST
     ├── controllers/     # Endpoints da API
-    ├── dto/            # Objetos de transferência
-    └── mappers/        # Conversores DTO ↔ Domain
+    ├── dto/            # Objetos de transferência (Request/Response)
+    ├── mappers/        # Conversores DTO ↔ Domain
+    └── exception/      # Tratamento global de exceções
 ```
+
+### Princípios Aplicados
+
+- ✅ **Clean Architecture**: Dependências apontam para dentro
+- ✅ **SOLID**: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+- ✅ **DDD**: Domain-Driven Design com entidades e agregados
+- ✅ **Repository Pattern**: Abstração da persistência
+- ✅ **Use Case Pattern**: Encapsulamento de lógica de aplicação
+
+---
 
 ## 🚀 Tecnologias Utilizadas
 
-- **Java 21** - Linguagem principal
-- **Spring Boot 3.3.6** - Framework web
-- **PostgreSQL 15** - Banco de dados
-- **Maven** - Gerenciamento de dependências
-- **Lombok** - Redução de boilerplate
-- **SpringDoc OpenAPI** - Documentação automática
-- **JaCoCo** - Cobertura de testes (81%)
+| Tecnologia | Versão | Propósito |
+|------------|--------|-----------|
+| Java | 21 | Linguagem principal |
+| Spring Boot | 3.3.6 | Framework web |
+| Spring Data JPA | 3.3.6 | Persistência de dados |
+| PostgreSQL | 15 | Banco de dados |
+| H2 Database | 2.2.224 | Testes in-memory |
+| Lombok | 1.18.30 | Redução de boilerplate |
+| SpringDoc OpenAPI | 2.3.0 | Documentação automática |
+| JaCoCo | 0.8.11 | Cobertura de testes |
+| Maven | 3.9+ | Gerenciamento de dependências |
+| Docker | 24+ | Containerização |
+
+---
 
 ## ⚙️ Como Executar o Projeto
 
 ### Pré-requisitos
-- Docker e Docker Compose
-- (Opcional) Java 21 e Maven para desenvolvimento local
+- **Docker** e **Docker Compose** instalados
+- (Opcional) **Java 21** e **Maven** para desenvolvimento local
 
 ### 🐳 Opção 1: Docker Compose (Recomendado)
+
 ```bash
-# Clone o repositório
+# 1. Clone o repositório
 git clone <repository-url>
 cd clean-arch-tech-challenge
 
-# Suba toda a aplicação (banco + API)
+# 2. Suba toda a aplicação (banco + API)
 docker-compose up -d
 
-# Aguarde alguns segundos para a aplicação inicializar
-# Acesse: http://localhost:8080/swagger-ui.html
+# 3. Aguarde a inicialização (15-20 segundos)
+docker-compose logs -f app
+
+# 4. Acesse a aplicação
+# Swagger UI: http://localhost:8080/swagger-ui/index.html
+# API Docs: http://localhost:8080/api-docs
+# Health Check: http://localhost:8080/actuator/health
+```
+
+**Comandos Úteis:**
+```bash
+# Parar a aplicação
+docker-compose down
+
+# Ver logs
+docker-compose logs -f
+
+# Reiniciar apenas a aplicação
+docker-compose restart app
+
+# Reconstruir imagens
+docker-compose up -d --build
 ```
 
 ### 💻 Opção 2: Desenvolvimento Local
+
 ```bash
-# Suba apenas o banco
+# 1. Suba apenas o banco de dados
 docker-compose up -d postgres
 
-# Execute a aplicação local
+# 2. Execute a aplicação localmente
 ./mvnw spring-boot:run
 
-# Acesse: http://localhost:8080/swagger-ui.html
+# 3. Acesse: http://localhost:8080/swagger-ui/index.html
 ```
 
-### 3. Acessar a Documentação
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **API Docs**: http://localhost:8080/api-docs
-- **Health Check**: http://localhost:8080/actuator/health
+---
 
 ## 📚 Documentação das APIs
 
-### 🍽️ Restaurantes
-
-#### Criar Restaurante
-```http
-POST /api/restaurants
-Content-Type: application/json
-
-{
-  "name": "Pizzaria Bella Vista",
-  "address": "Rua Augusta, 1234 - Consolação, São Paulo - SP",
-  "cuisineType": "Italiana",
-  "userIds": [1, 2],
-  "openingHours": [
-    {
-      "dayOfWeek": "MONDAY",
-      "openTime": "18:00",
-      "closeTime": "23:30"
-    },
-    {
-      "dayOfWeek": "FRIDAY",
-      "openTime": "18:00",
-      "closeTime": "00:30"
-    }
-  ]
-}
+### Base URL
+```
+http://localhost:8080
 ```
 
-**Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "name": "Pizzaria Bella Vista",
-  "address": "Rua Augusta, 1234 - Consolação, São Paulo - SP",
-  "cuisineType": "Italiana",
-  "openingHours": [
-    {
-      "dayOfWeek": "MONDAY",
-      "openTime": "18:00",
-      "closeTime": "23:30"
-    }
-  ],
-  "owners": [
-    {
-      "id": 1,
-      "name": "João Silva",
-      "email": "joao@email.com"
-    }
-  ]
-}
-```
+### Documentação Interativa
+- **Swagger UI**: http://localhost:8080/swagger-ui/index.html
+- **OpenAPI JSON**: http://localhost:8080/api-docs
 
-#### Buscar Restaurante
-```http
-GET /api/restaurants/1
-```
+### 🍽️ Endpoints - Restaurantes
 
-**Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "name": "Pizzaria Bella Vista",
-  "address": "Rua Augusta, 1234 - Consolação, São Paulo - SP",
-  "cuisineType": "Italiana",
-  "openingHours": [...],
-  "owners": [...]
-}
-```
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/api/restaurants` | Criar restaurante |
+| GET | `/api/restaurants/{id}` | Buscar por ID |
+| PUT | `/api/restaurants/{id}` | Atualizar restaurante |
 
-#### Atualizar Restaurante
-```http
-PUT /api/restaurants/1
-Content-Type: application/json
+### 👥 Endpoints - Usuários
 
-{
-  "name": "Pizzaria Bella Vista Premium",
-  "address": "Rua Augusta, 1234 - Consolação, São Paulo - SP",
-  "cuisineType": "Italiana Gourmet",
-  "userIds": [1, 2, 3],
-  "openingHours": [
-    {
-      "dayOfWeek": "MONDAY",
-      "openTime": "17:00",
-      "closeTime": "23:30"
-    }
-  ]
-}
-```
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/api/users` | Criar usuário |
+| GET | `/api/users/{id}` | Buscar por ID |
+| PUT | `/api/users/{id}` | Atualizar usuário |
+| DELETE | `/api/users/{id}` | Deletar usuário |
 
-**Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "name": "Pizzaria Bella Vista Premium",
-  "address": "Rua Augusta, 1234 - Consolação, São Paulo - SP",
-  "cuisineType": "Italiana Gourmet",
-  "openingHours": [...],
-  "owners": [...]
-}
-```
+**Perfis disponíveis**: `CLIENT`, `OWNER`, `ADMIN`
 
-### 👥 Usuários
+### 🍕 Endpoints - Menu Items
 
-#### Criar Usuário
-```http
-POST /api/users
-Content-Type: application/json
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/api/menu-items` | Criar item do menu |
+| GET | `/api/menu-items/{id}` | Buscar por ID |
+| GET | `/api/menu-items/restaurant/{id}` | Listar por restaurante |
+| PUT | `/api/menu-items/{id}` | Atualizar item |
+| DELETE | `/api/menu-items/{id}` | Deletar item |
 
-{
-  "name": "Maria Santos",
-  "email": "maria@email.com",
-  "userIdentification": "12345678901",
-  "address": "Rua das Flores, 456 - Vila Madalena, São Paulo - SP",
-  "profile": "client",
-  "username": "maria.santos",
-  "password": "senha123456"
-}
-```
+### 📊 Códigos de Status HTTP
 
-**Resposta (201 Created):**
-```json
-{
-  "id": 2,
-  "name": "Maria Santos",
-  "userIdentification": "12345678901",
-  "email": "maria@email.com",
-  "address": "Rua das Flores, 456 - Vila Madalena, São Paulo - SP",
-  "profile": "client"
-}
-```
+| Código | Status | Descrição |
+|--------|--------|-----------|
+| 200 | OK | Requisição bem-sucedida (GET, PUT) |
+| 201 | Created | Recurso criado com sucesso (POST) |
+| 204 | No Content | Deleção bem-sucedida (DELETE) |
+| 400 | Bad Request | Dados inválidos na requisição |
+| 404 | Not Found | Recurso não encontrado |
+| 500 | Internal Server Error | Erro interno do servidor |
 
-#### Buscar Usuário
-```http
-GET /api/users/2
-```
-
-#### Atualizar Usuário
-```http
-PUT /api/users/2
-Content-Type: application/json
-
-{
-  "name": "Maria Santos Silva",
-  "email": "maria.silva@email.com",
-  "userIdentification": "12345678901",
-  "address": "Rua das Flores, 789 - Vila Madalena, São Paulo - SP",
-  "profile": "owner",
-  "username": "maria.silva",
-  "password": "novaSenha123"
-}
-```
-
-#### Deletar Usuário
-```http
-DELETE /api/users/2
-```
-
-**Resposta (204 No Content)**
-
-### 🍕 Itens do Menu
-
-#### Criar Item do Menu
-```http
-POST /api/menu-items
-Content-Type: application/json
-
-{
-  "restaurantId": 1,
-  "name": "Pizza Margherita",
-  "description": "Pizza tradicional italiana com molho de tomate San Marzano, mussarela de búfala, manjericão fresco e azeite extra virgem",
-  "price": 42.90,
-  "deliveryItem": true,
-  "photoUrl": "https://exemplo.com/images/pizza-margherita.jpg"
-}
-```
-
-**Resposta (201 Created):**
-```json
-{
-  "id": 1,
-  "restaurantId": 1,
-  "name": "Pizza Margherita",
-  "description": "Pizza tradicional italiana com molho de tomate San Marzano, mussarela de búfala, manjericão fresco e azeite extra virgem",
-  "price": 42.90,
-  "deliveryItem": true,
-  "photoUrl": "https://exemplo.com/images/pizza-margherita.jpg",
-  "lastUpdate": "2024-01-13T15:30:00Z"
-}
-```
-
-#### Buscar Item do Menu
-```http
-GET /api/menu-items/1
-```
-
-#### Buscar Itens por Restaurante
-```http
-GET /api/menu-items/restaurant/1
-```
-
-**Resposta (200 OK):**
-```json
-[
-  {
-    "id": 1,
-    "restaurantId": 1,
-    "name": "Pizza Margherita",
-    "description": "Pizza tradicional italiana...",
-    "price": 42.90,
-    "deliveryItem": true,
-    "photoUrl": "https://exemplo.com/images/pizza-margherita.jpg",
-    "lastUpdate": "2024-01-13T15:30:00Z"
-  },
-  {
-    "id": 2,
-    "restaurantId": 1,
-    "name": "Pizza Pepperoni",
-    "description": "Pizza com pepperoni...",
-    "price": 48.90,
-    "deliveryItem": true,
-    "photoUrl": "https://exemplo.com/images/pizza-pepperoni.jpg",
-    "lastUpdate": "2024-01-13T15:35:00Z"
-  }
-]
-```
-
-#### Atualizar Item do Menu
-```http
-PUT /api/menu-items/1
-Content-Type: application/json
-
-{
-  "restaurantId": 1,
-  "name": "Pizza Margherita Premium",
-  "description": "Pizza tradicional italiana com ingredientes premium",
-  "price": 52.90,
-  "deliveryItem": true,
-  "photoUrl": "https://exemplo.com/images/pizza-margherita-premium.jpg"
-}
-```
-
-**Resposta (200 OK):**
-```json
-{
-  "id": 1,
-  "restaurantId": 1,
-  "name": "Pizza Margherita Premium",
-  "description": "Pizza tradicional italiana com ingredientes premium",
-  "price": 52.90,
-  "deliveryItem": true,
-  "photoUrl": "https://exemplo.com/images/pizza-margherita-premium.jpg",
-  "lastUpdate": "2024-01-13T16:30:00Z"
-}
-```
-
-#### Deletar Item do Menu
-```http
-DELETE /api/menu-items/1
-```
-
-**Resposta (204 No Content)**
+---
 
 ## 🧪 Testes
 
-Nossa equipe implementou uma suíte robusta de testes com **81% de cobertura**:
+### Cobertura Atual: **85%**
 
 ```bash
 # Executar todos os testes
@@ -356,67 +194,77 @@ Nossa equipe implementou uma suíte robusta de testes com **81% de cobertura**:
 # Gerar relatório de cobertura
 ./mvnw jacoco:report
 
-# Visualizar relatório: target/site/jacoco/index.html
+# Visualizar relatório
+open target/site/jacoco/index.html
 ```
 
-**Cobertura por camada:**
-- **Domain**: 96% - Regras de negócio bem testadas
-- **Application**: 81% - Casos de uso cobertos
-- **Infrastructure**: 77% - Adapters e persistência
-- **Presentation**: 75% - Controllers e mappers
+### Cobertura por Camada
 
-## 🔧 Configuração do Ambiente
+| Camada | Cobertura | Descrição |
+|--------|-----------|-----------|
+| **Domain** | 91% | Regras de negócio bem testadas |
+| **Application** | 92% | Casos de uso cobertos |
+| **Infrastructure** | 80% | Adapters e persistência |
+| **Presentation** | 75% | Controllers e mappers |
 
-### Banco de Dados
-O projeto utiliza PostgreSQL em produção e H2 para testes:
+**Total**: 88 testes passando
 
+---
+
+## 📦 Postman Collection
+
+O projeto inclui uma collection completa do Postman com todos os endpoints testados:
+
+```
+Restaurant-API.postman_collection.json
+```
+
+**Como usar:**
+1. Importe o arquivo no Postman
+2. Configure a variável `baseUrl` para `http://localhost:8080`
+3. Execute os requests na ordem sugerida
+
+---
+
+## 📖 Documentação Completa
+
+Para documentação detalhada sobre arquitetura, endpoints, validações e exemplos completos, consulte:
+
+```
+DOCUMENTACAO_PROJETO.md
+```
+
+Este documento contém:
+- Descrição detalhada da arquitetura
+- Exemplos completos de requests e responses
+- Validações de cada campo
+- Configurações de ambiente
+- Estrutura completa de diretórios
+
+---
+
+## 🔧 Configuração do Banco de Dados
+
+### PostgreSQL (Produção)
 ```properties
-# application.properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/restaurant_db
 spring.datasource.username=postgres
 spring.datasource.password=postgres
+spring.jpa.hibernate.ddl-auto=update
 ```
 
-### Docker
-```yaml
-# docker-compose.yml
-services:
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: restaurant_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
+### H2 (Testes)
+```properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.hibernate.ddl-auto=create-drop
 ```
 
-## 📊 Códigos de Status HTTP
+---
 
-| Status | Descrição | Quando ocorre |
-|--------|-----------|---------------|
-| 200 | OK | Busca bem-sucedida |
-| 201 | Created | Recurso criado com sucesso |
-| 204 | No Content | Deleção bem-sucedida |
-| 400 | Bad Request | Dados inválidos na requisição |
-| 404 | Not Found | Recurso não encontrado |
-| 500 | Internal Server Error | Erro interno do servidor |
+## 📄 Licença
 
-## 🏛️ Princípios Aplicados
+Este projeto foi desenvolvido para fins educacionais como parte do Tech Challenge Fase 2 - FIAP Pós-Tech.
 
-Nossa equipe seguiu as melhores práticas de desenvolvimento:
+---
 
-- **Clean Architecture**: Separação clara entre camadas
-- **SOLID**: Princípios de design orientado a objetos
-- **DDD**: Domain-Driven Design
-- **Repository Pattern**: Abstração da persistência
-- **Dependency Inversion**: Baixo acoplamento entre camadas
-
-## 📦 Desenvolvedores
-
-**Desenvolvido por**: 
-- **Carlos Edurado Ferreira Lins**
-- **João Victor Morito da Silva**
-- **Júlio Gurgel Fontes**
-- **Mayk Pintor Platero**
-- **Rodrigo Antônio Bagnara**
+**Última atualização**: Janeiro de 2026
